@@ -4,6 +4,9 @@
 
 package imat;
 
+import imat.program.Controller;
+import imat.program.IController;
+import imat.program.IView;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -19,13 +22,17 @@ import javax.swing.JFrame;
 /**
  * The application's main frame.
  */
-public class IMatView extends FrameView {
+public class IMatView extends FrameView implements IView {
 
+    IController controller;
     public IMatView(SingleFrameApplication app) {
         super(app);
 
         initComponents();
 
+        this.controller = new Controller(this);
+        
+        // TODO Du kan ta bort allt i konstruktorn nedanför denna rad. Detta har bara att göra med en laddningskomponent som vi inte använder. //Björn
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
