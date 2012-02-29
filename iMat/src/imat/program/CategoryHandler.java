@@ -35,7 +35,7 @@ public class CategoryHandler {
 		{
 			return Category.FAVORITES;
 		}
-		else if (categoryName.equalsIgnoreCase("Br�d"))
+		else if (categoryName.equalsIgnoreCase("Bröd"))
 		{
 			return Category.BREAD;
 		}
@@ -47,7 +47,7 @@ public class CategoryHandler {
 		{
 			return Category.SNACKS;
 		}
-		else if (categoryName.equalsIgnoreCase("B�r"))
+		else if (categoryName.equalsIgnoreCase("Bär"))
 		{
 			return Category.BERRIES;
 		}
@@ -55,7 +55,7 @@ public class CategoryHandler {
 		{
 			return Category.CITRUS;
 		}
-		else if (categoryName.equalsIgnoreCase("K�l"))
+		else if (categoryName.equalsIgnoreCase("Kål"))
 		{
 			return Category.CABBAGE;
 		}
@@ -63,7 +63,7 @@ public class CategoryHandler {
 		{
 			return Category.MELONS;
 		}
-		else if (categoryName.equalsIgnoreCase("N�tter och fr�n"))
+		else if (categoryName.equalsIgnoreCase("Nötter och frön"))
 		{
 			return Category.NUTS_N_SEEDS;
 		}
@@ -75,19 +75,19 @@ public class CategoryHandler {
 		{
 			return Category.STONE_FRUIT;
 		}
-		else if (categoryName.equalsIgnoreCase("�rtor och baljv�xter"))
+		else if (categoryName.equalsIgnoreCase("Ärtor och baljväxter"))
 		{
 			return Category.PEAS_N_PODS;
 		}
-		else if (categoryName.equalsIgnoreCase("�rter"))
+		else if (categoryName.equalsIgnoreCase("Örter"))
 		{
 			return Category.HERBS;
 		}
-		else if (categoryName.equalsIgnoreCase("�vriga frukter"))
+		else if (categoryName.equalsIgnoreCase("Övriga frukter"))
 		{
 			return Category.OTHER_FRUITS;
 		}
-		else if (categoryName.equalsIgnoreCase("�vriga gr�nsaker"))
+		else if (categoryName.equalsIgnoreCase("Övriga grönsaker"))
 		{
 			return Category.OTHER_VEGS;
 		}
@@ -95,7 +95,7 @@ public class CategoryHandler {
 		{
 			return Category.LEMONADES;
 		}
-		else if (categoryName.equalsIgnoreCase("L�skeblask"))
+		else if (categoryName.equalsIgnoreCase("Läskeblask"))
 		{
 			return Category.SODAS;
 		}
@@ -107,7 +107,7 @@ public class CategoryHandler {
 		{
 			return Category.CHICKEN;
 		}
-		else if (categoryName.equalsIgnoreCase("N�tk�tt"))
+		else if (categoryName.equalsIgnoreCase("Nötkött"))
 		{
 			return Category.BEEF;
 		}
@@ -131,7 +131,7 @@ public class CategoryHandler {
 		{
 			return Category.RICE;
 		}
-		else if (categoryName.equalsIgnoreCase("�vriga torrvaror"))
+		else if (categoryName.equalsIgnoreCase("Övriga torrvaror"))
 		{
 			return Category.OTHER_DRY;
 		}
@@ -139,7 +139,7 @@ public class CategoryHandler {
 		{
 			return Category.FIKA_N_SNACKS;
 		}
-		else if (categoryName.equalsIgnoreCase("Frukt och gr�nt"))
+		else if (categoryName.equalsIgnoreCase("Frukt och grönt"))
 		{
 			return Category.FRUIT_N_VEG;
 		}
@@ -147,7 +147,7 @@ public class CategoryHandler {
 		{
 			return Category.COLD_DRINKS;
 		}
-		else if (categoryName.equalsIgnoreCase("K�tt och fisk"))
+		else if (categoryName.equalsIgnoreCase("Kött och fisk"))
 		{
 			return Category.MEAT_N_FISH;
 		}
@@ -462,6 +462,8 @@ public class CategoryHandler {
 		default:
 			break;
 		}
+                
+                // TODO Sortera i bokstavsordning
 		return output;
 	}
 }

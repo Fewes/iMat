@@ -4,7 +4,6 @@
 
 package imat;
 
-import imat.program.Category;
 import imat.program.CategoryHandler;
 import imat.program.Controller;
 import imat.program.IController;
@@ -16,27 +15,16 @@ import imat.program.UserHandler;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.util.List;
 import org.jdesktop.application.Action;
-import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
-import org.jdesktop.application.TaskMonitor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
-import java.util.LinkedList;
 import javax.swing.BorderFactory;
-import javax.swing.Timer;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingCartListener;
@@ -238,7 +226,7 @@ public class IMatView extends FrameView implements IView {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
                 .addGap(182, 182, 182)
                 .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(126, 126, 126)
                 .addComponent(btnBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -326,13 +314,13 @@ public class IMatView extends FrameView implements IView {
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Bröd");
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fika & Snacks");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fika och Snacks");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Fika");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Snacks");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Frukt & Grönt");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Frukt och Grönt");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Bär");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Citrusfrukter");
@@ -367,7 +355,7 @@ public class IMatView extends FrameView implements IView {
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Kyckling");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Kött");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Nötkött");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Mejerivaror");
@@ -499,7 +487,7 @@ public class IMatView extends FrameView implements IView {
         butikSwitcher.add(butikList, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         productWindow.setName("productWindow"); // NOI18N
-        productWindow.setBounds(290, 10, 340, 453);
+        productWindow.setBounds(290, 10, 352, 453);
         butikSwitcher.add(productWindow, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout midButikLayout = new javax.swing.GroupLayout(midButik);
@@ -508,7 +496,7 @@ public class IMatView extends FrameView implements IView {
             midButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(midButikLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(butikSwitcher, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
+                .addComponent(butikSwitcher, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)
                 .addContainerGap())
         );
         midButikLayout.setVerticalGroup(
@@ -610,7 +598,7 @@ public class IMatView extends FrameView implements IView {
             .addGroup(midLoginLayout.createSequentialGroup()
                 .addGap(315, 315, 315)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         midLoginLayout.setVerticalGroup(
             midLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -728,7 +716,7 @@ public class IMatView extends FrameView implements IView {
             .addGroup(midRegisterLayout.createSequentialGroup()
                 .addGap(248, 248, 248)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         midRegisterLayout.setVerticalGroup(
             midRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -807,14 +795,14 @@ public class IMatView extends FrameView implements IView {
                         .addContainerGap()
                         .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midHistorikLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(btnRemoveFavCart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnAddFavCart, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)))
                     .addGroup(midHistorikLayout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -823,7 +811,7 @@ public class IMatView extends FrameView implements IView {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(fieldFavCartName))
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
                         .addComponent(btnAddToCart, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -865,7 +853,7 @@ public class IMatView extends FrameView implements IView {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButikLayout.createSequentialGroup()
                 .addComponent(butikLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE)
+                .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(butikRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(110, 110, 110))
@@ -1541,6 +1529,8 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public ShoppingCartListener getShoppingCartListener() {
+        // TODO Skall EJ returnera null, ska returnera den ShoppingCartListener som sköter uppdateringen av kundvagnen.
+        // Slänger en NullPointerException i databasen annars.
         return null;
     }
 
