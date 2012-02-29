@@ -314,13 +314,13 @@ public class IMatView extends FrameView implements IView {
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Bröd");
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fika och Snacks");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fika och snacks");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Fika");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Snacks");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Frukt och Grönt");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Frukt och grönt");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Bär");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Citrusfrukter");
@@ -344,7 +344,7 @@ public class IMatView extends FrameView implements IView {
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Övriga grönsaker");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Kalla Drycker");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Kalla drycker");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Fruktdrycker");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Läskeblask");
