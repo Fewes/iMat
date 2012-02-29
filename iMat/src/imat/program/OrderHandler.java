@@ -63,7 +63,7 @@ public class OrderHandler {
 			return result;
 		}
 		String[] ordersText = input.split(";endl;");
-                if( ordersText.length > 1 ) //TODO: Dirty fix. Do something better
+                if( ordersText.length > 1 && !ordersText[0].equalsIgnoreCase("") ) //TODO: Fullösning men funkar tills vidare.
                 {
                     for (int i=0; i<ordersText.length; i++)
                     {

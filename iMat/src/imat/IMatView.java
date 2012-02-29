@@ -1564,6 +1564,7 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public void noSuchUser() {
+        // TODO Show information that no such user is registered
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -1661,6 +1662,7 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public void passwordsNotMatching() {
+        // TODO Show information that the password and repeated passwords aren't matching.
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -1675,6 +1677,7 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public void setLoggedInUser(IMatUser loggedInUser) {
+        // TODO A new user has logged in, update "inloggad som" and so on.
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

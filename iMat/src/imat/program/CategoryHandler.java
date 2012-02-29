@@ -1,6 +1,8 @@
 package imat.program;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
@@ -309,6 +311,7 @@ public class CategoryHandler {
 		{
 			outputList.add(database.getProduct(numbers[i]));
 		}
+                Collections.sort(outputList, new ProductComparator());
 		return outputList;
 	}
 	
@@ -463,7 +466,6 @@ public class CategoryHandler {
 			break;
 		}
                 
-                // TODO Sortera i bokstavsordning
 		return output;
 	}
 }

@@ -202,7 +202,7 @@ public class Controller implements IController {
 	}
 
 	private void validatePayment(PaymentInfo paymentInfo) {
-		// TODO zzz Validate the payment?
+		// Validate the payment here?
 		
 		if (userHandler.getLoggedInUser() != null) // if any user is logged in, save payment info
 		{

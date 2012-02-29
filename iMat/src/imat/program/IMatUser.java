@@ -54,10 +54,6 @@ public class IMatUser {
 	}
 
 	public PaymentInfo getPaymentInfo() {
-		/*PaymentInfo output = new PaymentInfo();
-		output.setCardHoldersName(this.paymentInfo.getCardHoldersName());
-		return output;*/
-		// TODO zzz Do if time
 		return this.paymentInfo;
 	}
 

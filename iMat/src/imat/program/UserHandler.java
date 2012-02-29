@@ -14,7 +14,7 @@ import java.util.Scanner;
 /**
  * Handles the users.
  * @author Plankton555
- * @version (2012-02-27)
+ * @version (2012-02-29)
  */
 public class UserHandler {
 
@@ -55,15 +55,15 @@ public class UserHandler {
 			return result;
 		}
 		String[] usersText = input.split(";endl;");
-                if( usersText.length > 0 )  //TODO: Dirt fix. Do something better.
+                if( usersText.length > 0 && !usersText[0].equalsIgnoreCase("") )  //TODO: Fullösning men funkar tills vidare.
                 {
                     for (int i=0; i<usersText.length; i++)
                     {
                             String[] u = usersText[i].split(";");
                             IMatUser user = new IMatUser(u[0], u[1], u[2], u[3]);
-                            /*
+                            
                             PaymentInfo payInfo = new PaymentInfo();   
-                            payInfo.setCardType(payInfo.fromString(u[4]));  //TODO: Disabled this to enable users.
+                            payInfo.setCardType(payInfo.fromString(u[4]));
                             payInfo.setFirstName(u[5]);
                             payInfo.setLastName(u[6]);
                             payInfo.setPostAddress(u[7]);
@@ -76,8 +76,7 @@ public class UserHandler {
                             payInfo.setValidMonth(Integer.parseInt(u[13]));
 
                             user.setPaymentInfo(payInfo);
-                             * 
-                             */
+                            
                             result.add(user);
                     }
                 }
@@ -93,14 +92,13 @@ public class UserHandler {
 		String dataString = "";
 		for (IMatUser user : users)
 		{
-                        //TODO: Null pointer...
 			PaymentInfo payInfo = user.getPaymentInfo();
 			dataString = dataString
 					+ user.getFirstName() + ';'
 					+ user.getLastName() + ';'
 					+ user.getUsername() + ';'
-					+ user.getPassword() + ';'/*
-					+ payInfo.getCardType().toString() + ';'    //TODO: ...here
+					+ user.getPassword() + ';'
+					+ payInfo.getCardType().toString() + ';'
 					+ payInfo.getFirstName() + ';'
 					+ payInfo.getLastName() + ';'
 					+ payInfo.getPostAddress() + ';'
@@ -109,7 +107,7 @@ public class UserHandler {
 					+ payInfo.getCardNumber() + ';'
 					+ payInfo.getCardHoldersName() + ';'
 					+ payInfo.getValidYear() + ';'
-					+ payInfo.getValidMonth() + ";endl;"*/;
+					+ payInfo.getValidMonth() + ";endl;";
 		}
 		
 		// Creates the folder if necessary
@@ -138,6 +136,7 @@ public class UserHandler {
 			{
 				loggedInUser = user;
                                 System.out.println("User " + username + " logged in successfully!");
+                                // TODO Userhandler should not set the button text unless absolutely necessary...
                                 IMatView.getView().getLoginBtn().setText("Historik");
 				return true; // login has succeeded
 			}
@@ -152,13 +151,15 @@ public class UserHandler {
 		{
 			if (username.equals(user.getUsername()))
 			{
-				return false; // The user is already registered
+                            System.out.println("User " + username + " is already registered");
+                            return false; // The user is already registered
 			}
 		}
 		IMatUser user = new IMatUser(firstName, lastName, username, password);
 		users.add(user);
-		loggedInUser = user;
+		//loggedInUser = user;
                 System.out.println("User " + username + " created.");
+                login(username, password);
 		return true;
 	}
 	

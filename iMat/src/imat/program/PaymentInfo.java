@@ -4,13 +4,13 @@ package imat.program;
 /**
  * A class containing payment information.
  * @author Plankton555
- * @version (2012-02-27)
+ * @version (2012-02-29)
  */
 public class PaymentInfo {
 
 	public enum CardType
 	{
-		VISA, MasterCard;
+		NoChosen, VISA, MasterCard;
 	}
 	
 	private CardType cardType;
@@ -30,6 +30,14 @@ public class PaymentInfo {
 	 */
 	public PaymentInfo()
 	{
+            this.cardType = CardType.NoChosen;
+            this.firstName = "";
+            this.lastName = "";
+            this.postAddress = "";
+            this.postCode = "";
+            this.phoneNumber = "";
+            this.cardNumber = "";
+            this.cardHoldersName = "";
 	}
 	
 	/**
