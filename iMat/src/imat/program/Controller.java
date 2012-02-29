@@ -11,7 +11,7 @@ import se.chalmers.ait.dat215.project.Product;
 /**
  * Controller class.
  * @author Plankton555
- * @version (2012-02-27)
+ * @version (2012-02-29)
  */
 
 public class Controller implements IController {

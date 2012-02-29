@@ -20,7 +20,7 @@ import se.chalmers.ait.dat215.project.ShoppingItem;
 /**
  * Handles the favorite orders.
  * @author Plankton555
- * @version (2012-02-24)
+ * @version (2012-02-29)
  */
 public class OrderHandler {
 
