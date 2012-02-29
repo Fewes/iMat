@@ -32,7 +32,7 @@ public class IMatApp extends SingleFrameApplication {
 
         @Override
         public void windowClosing(WindowEvent e) {
-            Controller.getController().shutDown();
+            Controller.getInstance().shutDown();
         }
 
     });

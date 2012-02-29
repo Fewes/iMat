@@ -21,11 +21,11 @@ public class Controller implements IController {
 	CategoryHandler categoryHandler;
 	OrderHandler orderHandler;
 	UserHandler userHandler;
-        private static Controller c;
+        private static IController instance;
                 
 	public Controller(IView view)
 	{
-            c = this;
+            this.instance = this;
             this.view = view;
             database = IMatDataHandler.getInstance();
             categoryHandler = CategoryHandler.getInstance();
@@ -36,10 +36,16 @@ public class Controller implements IController {
 
             database.getShoppingCart().addShoppingCartListener(view.getShoppingCartListener());
 	}
-	
+        
+        public static IController getInstance()
+        {
+            return instance;
+        }
+	/*
         public static Controller getController() {
             return c;
         }
+         */
         
 	@Override
 	public void showStartPage() {
