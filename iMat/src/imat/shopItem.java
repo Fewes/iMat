@@ -10,10 +10,7 @@
  */
 package imat;
 
-import java.awt.Color;
 import java.awt.event.*;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 
