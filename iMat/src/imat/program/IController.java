@@ -82,6 +82,10 @@ public interface IController
 	 * @param product
 	 */
 	public void toggleFavorite(Product product);
+        
+        public boolean isFavorite(Product p);
+        
+        public void addProduct(Product p, double amount);
 	
 	/**
 	 * Updates the cart to contain the specified amount of the product.

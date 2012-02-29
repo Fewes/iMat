@@ -1,5 +1,6 @@
 package imat.program;
 
+import imat.IMatView;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,26 +55,32 @@ public class UserHandler {
 			return result;
 		}
 		String[] usersText = input.split(";endl;");
-		for (int i=0; i<usersText.length; i++)
-		{
-			String[] u = usersText[i].split(";");
-			IMatUser user = new IMatUser(u[0], u[1], u[2], u[3]);
-			PaymentInfo payInfo = new PaymentInfo();
-			payInfo.setCardType(payInfo.fromString(u[4]));
-			payInfo.setFirstName(u[5]);
-			payInfo.setLastName(u[6]);
-			payInfo.setPostAddress(u[7]);
-			payInfo.setPostCode(u[8]);
-			payInfo.setPhoneNumber(u[9]);
-			payInfo.setCardNumber(u[10]);
-			payInfo.setCardHoldersName(u[11]);
-			//payInfo.setVerificationCode(Integer.parseInt(u[12])); // no saving of verification code
-			payInfo.setValidYear(Integer.parseInt(u[12]));
-			payInfo.setValidMonth(Integer.parseInt(u[13]));
-			
-			user.setPaymentInfo(payInfo);
-			result.add(user);
-		}
+                if( usersText.length > 0 )  //TODO: Dirt fix. Do something better.
+                {
+                    for (int i=0; i<usersText.length; i++)
+                    {
+                            String[] u = usersText[i].split(";");
+                            IMatUser user = new IMatUser(u[0], u[1], u[2], u[3]);
+                            /*
+                            PaymentInfo payInfo = new PaymentInfo();   
+                            payInfo.setCardType(payInfo.fromString(u[4]));  //TODO: Disabled this to enable users.
+                            payInfo.setFirstName(u[5]);
+                            payInfo.setLastName(u[6]);
+                            payInfo.setPostAddress(u[7]);
+                            payInfo.setPostCode(u[8]);
+                            payInfo.setPhoneNumber(u[9]);
+                            payInfo.setCardNumber(u[10]);
+                            payInfo.setCardHoldersName(u[11]);
+                            //payInfo.setVerificationCode(Integer.parseInt(u[12])); // no saving of verification code
+                            payInfo.setValidYear(Integer.parseInt(u[12]));
+                            payInfo.setValidMonth(Integer.parseInt(u[13]));
+
+                            user.setPaymentInfo(payInfo);
+                             * 
+                             */
+                            result.add(user);
+                    }
+                }
 		return result;
 	}
 	
@@ -86,13 +93,14 @@ public class UserHandler {
 		String dataString = "";
 		for (IMatUser user : users)
 		{
+                        //TODO: Null pointer...
 			PaymentInfo payInfo = user.getPaymentInfo();
 			dataString = dataString
 					+ user.getFirstName() + ';'
 					+ user.getLastName() + ';'
 					+ user.getUsername() + ';'
-					+ user.getPassword() + ';'
-					+ payInfo.getCardType().toString() + ';'
+					+ user.getPassword() + ';'/*
+					+ payInfo.getCardType().toString() + ';'    //TODO: ...here
 					+ payInfo.getFirstName() + ';'
 					+ payInfo.getLastName() + ';'
 					+ payInfo.getPostAddress() + ';'
@@ -101,7 +109,7 @@ public class UserHandler {
 					+ payInfo.getCardNumber() + ';'
 					+ payInfo.getCardHoldersName() + ';'
 					+ payInfo.getValidYear() + ';'
-					+ payInfo.getValidMonth() + ";endl;";
+					+ payInfo.getValidMonth() + ";endl;"*/;
 		}
 		
 		// Creates the folder if necessary
@@ -129,9 +137,12 @@ public class UserHandler {
 			if (username.equals(user.getUsername()) && password.equals(user.getPassword()))
 			{
 				loggedInUser = user;
+                                System.out.println("User " + username + " logged in successfully!");
+                                IMatView.getView().getLoginBtn().setText("Historik");
 				return true; // login has succeeded
 			}
 		}
+                System.out.println("Incorrect username or password.");
 		return false; // no such user found
 	}
 	
@@ -147,6 +158,7 @@ public class UserHandler {
 		IMatUser user = new IMatUser(firstName, lastName, username, password);
 		users.add(user);
 		loggedInUser = user;
+                System.out.println("User " + username + " created.");
 		return true;
 	}
 	

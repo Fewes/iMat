@@ -4,9 +4,20 @@
 
 package imat;
 
+import imat.program.Category;
+import imat.program.CategoryHandler;
 import imat.program.Controller;
 import imat.program.IController;
+import imat.program.IMatUser;
 import imat.program.IView;
+import imat.program.NamedOrder;
+import imat.program.PaymentInfo;
+import imat.program.UserHandler;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import java.util.List;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -14,10 +25,21 @@ import org.jdesktop.application.FrameView;
 import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.LinkedList;
+import javax.swing.BorderFactory;
 import javax.swing.Timer;
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import se.chalmers.ait.dat215.project.Order;
+import se.chalmers.ait.dat215.project.Product;
+import se.chalmers.ait.dat215.project.ShoppingCartListener;
 
 /**
  * The application's main frame.
@@ -25,67 +47,19 @@ import javax.swing.JFrame;
 public class IMatView extends FrameView implements IView {
 
     IController controller;
+    static IMatView view;
     public IMatView(SingleFrameApplication app) {
         super(app);
+        view = this;
 
         initComponents();
 
         this.controller = new Controller(this);
         
-        // TODO Du kan ta bort allt i konstruktorn nedanför denna rad. Detta har bara att göra med en laddningskomponent som vi inte använder. //Björn
-        // status bar initialization - message timeout, idle icon and busy animation, etc
-        ResourceMap resourceMap = getResourceMap();
-        int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
-        messageTimer = new Timer(messageTimeout, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                statusMessageLabel.setText("");
-            }
-        });
-        messageTimer.setRepeats(false);
-        int busyAnimationRate = resourceMap.getInteger("StatusBar.busyAnimationRate");
-        for (int i = 0; i < busyIcons.length; i++) {
-            busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
-        }
-        busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
-                statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
-            }
-        });
-        idleIcon = resourceMap.getIcon("StatusBar.idleIcon");
-        statusAnimationLabel.setIcon(idleIcon);
-        progressBar.setVisible(false);
-
-        // connecting action tasks to status bar via TaskMonitor
-        TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
-        taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                String propertyName = evt.getPropertyName();
-                if ("started".equals(propertyName)) {
-                    if (!busyIconTimer.isRunning()) {
-                        statusAnimationLabel.setIcon(busyIcons[0]);
-                        busyIconIndex = 0;
-                        busyIconTimer.start();
-                    }
-                    progressBar.setVisible(true);
-                    progressBar.setIndeterminate(true);
-                } else if ("done".equals(propertyName)) {
-                    busyIconTimer.stop();
-                    statusAnimationLabel.setIcon(idleIcon);
-                    progressBar.setVisible(false);
-                    progressBar.setValue(0);
-                } else if ("message".equals(propertyName)) {
-                    String text = (String)(evt.getNewValue());
-                    statusMessageLabel.setText((text == null) ? "" : text);
-                    messageTimer.restart();
-                } else if ("progress".equals(propertyName)) {
-                    int value = (Integer)(evt.getNewValue());
-                    progressBar.setVisible(true);
-                    progressBar.setIndeterminate(false);
-                    progressBar.setValue(value);
-                }
-            }
-        });
+    }
+    
+    public static IMatView getView(){
+        return view;
     }
 
     @Action
@@ -110,42 +84,44 @@ public class IMatView extends FrameView implements IView {
         mainPanel = new javax.swing.JPanel();
         mainTop = new javax.swing.JPanel();
         logoTop = new javax.swing.JLabel();
-        btnBuy = new javax.swing.JButton();
         topMid = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
         btnButik = new javax.swing.JButton();
+        btnBuy = new javax.swing.JButton();
         mainBot = new javax.swing.JPanel();
         panelButik = new javax.swing.JPanel();
         butikLeft = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        fieldSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         butikRight = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         kundvagn = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        btnEmptyBasket = new javax.swing.JButton();
         butikMid = new javax.swing.JPanel();
         midButik = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
+        butikSwitcher = new javax.swing.JLayeredPane();
+        butikList = new javax.swing.JScrollPane();
+        productWindow = new imat.productWindow();
         midLogin = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        usrName = new javax.swing.JTextField();
+        pswd = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnRegister = new javax.swing.JButton();
+        btnLoginCall = new javax.swing.JButton();
         midRegister = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        surName = new javax.swing.JTextField();
+        name = new javax.swing.JTextField();
+        userName = new javax.swing.JTextField();
+        pass = new javax.swing.JTextField();
+        passChk = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -155,27 +131,23 @@ public class IMatView extends FrameView implements IView {
         midHistorik = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        listOldCarts = new javax.swing.JList();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        listFavCarts = new javax.swing.JList();
+        btnAddFavCart = new javax.swing.JButton();
+        btnRemoveFavCart = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton8 = new javax.swing.JButton();
+        tblFavCart = new javax.swing.JTable();
+        btnAddToCart = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        fieldFavCartName = new javax.swing.JTextField();
         panelCheckout1 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton10 = new javax.swing.JButton();
+        btnPay2 = new javax.swing.JButton();
         panelCheckout2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
@@ -205,28 +177,50 @@ public class IMatView extends FrameView implements IView {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel24 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
-        jButton9 = new javax.swing.JButton();
+        btnFinishBuy = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel11 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
         panelCheckout3 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jButton11 = new javax.swing.JButton();
+        btnGoHome = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
-        statusPanel = new javax.swing.JPanel();
-        javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
-        statusMessageLabel = new javax.swing.JLabel();
-        statusAnimationLabel = new javax.swing.JLabel();
-        progressBar = new javax.swing.JProgressBar();
-
-        mainPanel.setName("mainPanel"); // NOI18N
-
-        mainTop.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        mainTop.setName("mainTop"); // NOI18N
+        productWindow1 = new imat.productWindow();
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(imat.IMatApp.class).getContext().getResourceMap(IMatView.class);
+        mainPanel.setBackground(resourceMap.getColor("mainPanel.background")); // NOI18N
+        mainPanel.setName("mainPanel"); // NOI18N
+
+        mainTop.setBackground(resourceMap.getColor("mainTop.background")); // NOI18N
+        mainTop.setName("mainTop"); // NOI18N
+
         logoTop.setIcon(resourceMap.getIcon("logoTop.icon")); // NOI18N
         logoTop.setText(resourceMap.getString("logoTop.text")); // NOI18N
         logoTop.setName("logoTop"); // NOI18N
+
+        topMid.setBackground(resourceMap.getColor("topMid.background")); // NOI18N
+        topMid.setName("topMid"); // NOI18N
+
+        btnLogin.setBackground(resourceMap.getColor("btnLogin.background")); // NOI18N
+        btnLogin.setText(resourceMap.getString("btnLogin.text")); // NOI18N
+        btnLogin.setName("btnLogin"); // NOI18N
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        btnButik.setBackground(resourceMap.getColor("btnButik.background")); // NOI18N
+        btnButik.setText(resourceMap.getString("btnButik.text")); // NOI18N
+        btnButik.setName("btnButik"); // NOI18N
+        btnButik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnButikActionPerformed(evt);
+            }
+        });
 
         btnBuy.setIcon(resourceMap.getIcon("btnBuy.icon")); // NOI18N
         btnBuy.setText(resourceMap.getString("btnBuy.text")); // NOI18N
@@ -237,44 +231,30 @@ public class IMatView extends FrameView implements IView {
             }
         });
 
-        topMid.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        topMid.setName("topMid"); // NOI18N
-
-        btnLogin.setText(resourceMap.getString("btnLogin.text")); // NOI18N
-        btnLogin.setName("btnLogin"); // NOI18N
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-
-        btnButik.setText(resourceMap.getString("btnButik.text")); // NOI18N
-        btnButik.setName("btnButik"); // NOI18N
-        btnButik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnButikActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout topMidLayout = new javax.swing.GroupLayout(topMid);
         topMid.setLayout(topMidLayout);
         topMidLayout.setHorizontalGroup(
             topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
                 .addGap(182, 182, 182)
-                .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(208, 208, 208))
+                .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(126, 126, 126)
+                .addComponent(btnBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         topMidLayout.setVerticalGroup(
             topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
-                .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+            .addGroup(topMidLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
+                        .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addComponent(btnBuy, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout mainTopLayout = new javax.swing.GroupLayout(mainTop);
@@ -282,37 +262,41 @@ public class IMatView extends FrameView implements IView {
         mainTopLayout.setHorizontalGroup(
             mainTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainTopLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
                 .addComponent(logoTop)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(topMid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(132, 132, 132))
         );
         mainTopLayout.setVerticalGroup(
             mainTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnBuy, 0, 0, Short.MAX_VALUE)
-            .addGroup(mainTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(topMid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logoTop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(topMid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainTopLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logoTop))
         );
 
-        mainBot.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         mainBot.setName("mainBot"); // NOI18N
         mainBot.setLayout(new java.awt.CardLayout());
 
+        panelButik.setBackground(resourceMap.getColor("panelButik.background")); // NOI18N
         panelButik.setName("panelButik"); // NOI18N
 
-        butikLeft.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        butikLeft.setBackground(resourceMap.getColor("butikLeft.background")); // NOI18N
         butikLeft.setName("butikLeft"); // NOI18N
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setBackground(resourceMap.getColor("jPanel4.background")); // NOI18N
         jPanel4.setName("jPanel4"); // NOI18N
 
-        jTextField1.setText(resourceMap.getString("jTextField1.text")); // NOI18N
-        jTextField1.setName("jTextField1"); // NOI18N
+        fieldSearch.setName("fieldSearch"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
+        btnSearch.setText(resourceMap.getString("btnSearch.text")); // NOI18N
+        btnSearch.setName("btnSearch"); // NOI18N
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -321,17 +305,17 @@ public class IMatView extends FrameView implements IView {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(jButton1))
+                    .addComponent(fieldSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(btnSearch))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnSearch)
                 .addContainerGap())
         );
 
@@ -343,43 +327,94 @@ public class IMatView extends FrameView implements IView {
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Bröd");
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fika & Snacks");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fisk");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Fika");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Snacks");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Frukt & Grönt");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Bär");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Citrusfrukter");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Kål");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Meloner");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Nötter och frön");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Rotfrukter");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Stenfrukter");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ärtor och baljväxter");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Örter");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Övriga frukter");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Övriga grönsaker");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Kalla Drycker");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Fruktdrycker");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Läskeblask");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Kött");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Kött och fisk");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Fisk");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Kyckling");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Kött");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Mejerivaror");
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Torrvaror");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Bakning");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Drycker");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Pasta");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Ris");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Övriga torrvaror");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree1.setName("Kategorier");
+        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTree1);
+        jTree1.setRootVisible(false);
+        jTree1.setToggleClickCount(1);
 
         javax.swing.GroupLayout butikLeftLayout = new javax.swing.GroupLayout(butikLeft);
         butikLeft.setLayout(butikLeftLayout);
         butikLeftLayout.setHorizontalGroup(
             butikLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(butikLeftLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         butikLeftLayout.setVerticalGroup(
             butikLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(butikLeftLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        butikRight.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        butikRight.setBackground(resourceMap.getColor("butikRight.background")); // NOI18N
         butikRight.setName("butikRight"); // NOI18N
 
         jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
@@ -413,11 +448,11 @@ public class IMatView extends FrameView implements IView {
         kundvagn.getColumnModel().getColumn(2).setResizable(false);
         kundvagn.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("kundvagn.columnModel.title2")); // NOI18N
 
-        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
-        jButton2.setName("jButton2"); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEmptyBasket.setText(resourceMap.getString("btnEmptyBasket.text")); // NOI18N
+        btnEmptyBasket.setName("btnEmptyBasket"); // NOI18N
+        btnEmptyBasket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEmptyBasketActionPerformed(evt);
             }
         });
 
@@ -426,11 +461,15 @@ public class IMatView extends FrameView implements IView {
         butikRightLayout.setHorizontalGroup(
             butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(butikRightLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                    .addComponent(jLabel1))
+                    .addGroup(butikRightLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(btnEmptyBasket, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
+                    .addGroup(butikRightLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1)))
                 .addContainerGap())
         );
         butikRightLayout.setVerticalGroup(
@@ -439,51 +478,60 @@ public class IMatView extends FrameView implements IView {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btnEmptyBasket)
                 .addContainerGap())
         );
 
-        butikMid.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         butikMid.setName("butikMid"); // NOI18N
         butikMid.setLayout(new java.awt.CardLayout());
 
+        midButik.setBackground(resourceMap.getColor("midButik.background")); // NOI18N
         midButik.setName("midButik"); // NOI18N
 
-        jLabel26.setFont(resourceMap.getFont("jLabel26.font")); // NOI18N
-        jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
-        jLabel26.setName("jLabel26"); // NOI18N
+        butikSwitcher.setName("butikSwitcher"); // NOI18N
+
+        butikList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        butikList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        butikList.setName("butikList"); // NOI18N
+        butikList.setBounds(0, 0, 920, 500);
+        butikSwitcher.add(butikList, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        productWindow.setName("productWindow"); // NOI18N
+        productWindow.setBounds(290, 10, 340, 453);
+        butikSwitcher.add(productWindow, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout midButikLayout = new javax.swing.GroupLayout(midButik);
         midButik.setLayout(midButikLayout);
         midButikLayout.setHorizontalGroup(
             midButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midButikLayout.createSequentialGroup()
-                .addContainerGap(264, Short.MAX_VALUE)
-                .addComponent(jLabel26)
-                .addGap(252, 252, 252))
+            .addGroup(midButikLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(butikSwitcher, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
+                .addContainerGap())
         );
         midButikLayout.setVerticalGroup(
             midButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(midButikLayout.createSequentialGroup()
-                .addGap(214, 214, 214)
-                .addComponent(jLabel26)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(butikSwitcher, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         butikMid.add(midButik, "card2");
 
+        midLogin.setBackground(resourceMap.getColor("midLogin.background")); // NOI18N
         midLogin.setName("midLogin"); // NOI18N
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
         jPanel1.setName("jPanel1"); // NOI18N
 
-        jTextField2.setText(resourceMap.getString("jTextField2.text")); // NOI18N
-        jTextField2.setName("jTextField2"); // NOI18N
+        usrName.setText(resourceMap.getString("usrName.text")); // NOI18N
+        usrName.setName("usrName"); // NOI18N
 
-        jTextField3.setText(resourceMap.getString("jTextField3.text")); // NOI18N
-        jTextField3.setName("jTextField3"); // NOI18N
+        pswd.setText(resourceMap.getString("pswd.text")); // NOI18N
+        pswd.setName("pswd"); // NOI18N
 
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
@@ -494,16 +542,21 @@ public class IMatView extends FrameView implements IView {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
-        jButton4.setText(resourceMap.getString("jButton4.text")); // NOI18N
-        jButton4.setName("jButton4"); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnRegister.setText(resourceMap.getString("btnRegister.text")); // NOI18N
+        btnRegister.setName("btnRegister"); // NOI18N
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnRegisterActionPerformed(evt);
             }
         });
 
-        jButton3.setText(resourceMap.getString("jButton3.text")); // NOI18N
-        jButton3.setName("jButton3"); // NOI18N
+        btnLoginCall.setText(resourceMap.getString("btnLoginCall.text")); // NOI18N
+        btnLoginCall.setName("btnLoginCall"); // NOI18N
+        btnLoginCall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginCallActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -521,13 +574,13 @@ public class IMatView extends FrameView implements IView {
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pswd, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usrName, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLoginCall, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(jButton4)
+                        .addComponent(btnRegister)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -537,16 +590,16 @@ public class IMatView extends FrameView implements IView {
                 .addComponent(jLabel2)
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usrName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(btnRegister)
+                    .addComponent(btnLoginCall))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -554,36 +607,37 @@ public class IMatView extends FrameView implements IView {
         midLogin.setLayout(midLoginLayout);
         midLoginLayout.setHorizontalGroup(
             midLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midLoginLayout.createSequentialGroup()
-                .addContainerGap(172, Short.MAX_VALUE)
+            .addGroup(midLoginLayout.createSequentialGroup()
+                .addGap(315, 315, 315)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(189, 189, 189))
+                .addContainerGap(343, Short.MAX_VALUE))
         );
         midLoginLayout.setVerticalGroup(
             midLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(midLoginLayout.createSequentialGroup()
-                .addGap(86, 86, 86)
+                .addGap(110, 110, 110)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         butikMid.add(midLogin, "card3");
 
+        midRegister.setBackground(resourceMap.getColor("midRegister.background")); // NOI18N
         midRegister.setName("midRegister"); // NOI18N
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setBackground(resourceMap.getColor("jPanel2.background")); // NOI18N
         jPanel2.setName("jPanel2"); // NOI18N
 
-        jTextField4.setText(resourceMap.getString("jTextField4.text")); // NOI18N
-        jTextField4.setName("jTextField4"); // NOI18N
+        surName.setText(resourceMap.getString("surName.text")); // NOI18N
+        surName.setName("surName"); // NOI18N
 
-        jTextField5.setName("jTextField5"); // NOI18N
+        name.setName("name"); // NOI18N
 
-        jTextField6.setName("jTextField6"); // NOI18N
+        userName.setName("userName"); // NOI18N
 
-        jTextField7.setName("jTextField7"); // NOI18N
+        pass.setName("pass"); // NOI18N
 
-        jTextField8.setName("jTextField8"); // NOI18N
+        passChk.setName("passChk"); // NOI18N
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
@@ -602,6 +656,11 @@ public class IMatView extends FrameView implements IView {
 
         jButton5.setText(resourceMap.getString("jButton5.text")); // NOI18N
         jButton5.setName("jButton5"); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -613,25 +672,25 @@ public class IMatView extends FrameView implements IView {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(surName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(passChk, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -639,23 +698,23 @@ public class IMatView extends FrameView implements IView {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(surName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passChk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(38, 38, 38)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -667,53 +726,44 @@ public class IMatView extends FrameView implements IView {
         midRegisterLayout.setHorizontalGroup(
             midRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(midRegisterLayout.createSequentialGroup()
-                .addGap(118, 118, 118)
+                .addGap(248, 248, 248)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(266, Short.MAX_VALUE))
         );
         midRegisterLayout.setVerticalGroup(
             midRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(midRegisterLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(95, 95, 95)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         butikMid.add(midRegister, "card4");
 
+        midHistorik.setBackground(resourceMap.getColor("midHistorik.background")); // NOI18N
         midHistorik.setName("midHistorik"); // NOI18N
 
         jSeparator1.setName("jSeparator1"); // NOI18N
 
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jList1.setName("jList1"); // NOI18N
-        jScrollPane3.setViewportView(jList1);
+        listOldCarts.setName("listOldCarts"); // NOI18N
+        jScrollPane3.setViewportView(listOldCarts);
 
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jList2.setName("jList2"); // NOI18N
-        jScrollPane4.setViewportView(jList2);
+        listFavCarts.setName("listFavCarts"); // NOI18N
+        jScrollPane4.setViewportView(listFavCarts);
 
-        jButton6.setText(resourceMap.getString("jButton6.text")); // NOI18N
-        jButton6.setName("jButton6"); // NOI18N
+        btnAddFavCart.setText(resourceMap.getString("btnAddFavCart.text")); // NOI18N
+        btnAddFavCart.setName("btnAddFavCart"); // NOI18N
 
-        jButton7.setText(resourceMap.getString("jButton7.text")); // NOI18N
-        jButton7.setName("jButton7"); // NOI18N
+        btnRemoveFavCart.setText(resourceMap.getString("btnRemoveFavCart.text")); // NOI18N
+        btnRemoveFavCart.setName("btnRemoveFavCart"); // NOI18N
 
         jScrollPane5.setName("jScrollPane5"); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblFavCart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -729,23 +779,23 @@ public class IMatView extends FrameView implements IView {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setName("jTable2"); // NOI18N
-        jScrollPane5.setViewportView(jTable2);
-        jTable2.getColumnModel().getColumn(0).setResizable(false);
-        jTable2.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("jTable2.columnModel.title0")); // NOI18N
-        jTable2.getColumnModel().getColumn(1).setResizable(false);
-        jTable2.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("jTable2.columnModel.title1")); // NOI18N
-        jTable2.getColumnModel().getColumn(2).setResizable(false);
-        jTable2.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable2.columnModel.title2")); // NOI18N
+        tblFavCart.setName("tblFavCart"); // NOI18N
+        jScrollPane5.setViewportView(tblFavCart);
+        tblFavCart.getColumnModel().getColumn(0).setResizable(false);
+        tblFavCart.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblFavCart.columnModel.title0")); // NOI18N
+        tblFavCart.getColumnModel().getColumn(1).setResizable(false);
+        tblFavCart.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblFavCart.columnModel.title1")); // NOI18N
+        tblFavCart.getColumnModel().getColumn(2).setResizable(false);
+        tblFavCart.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblFavCart.columnModel.title2")); // NOI18N
 
-        jButton8.setText(resourceMap.getString("jButton8.text")); // NOI18N
-        jButton8.setName("jButton8"); // NOI18N
+        btnAddToCart.setText(resourceMap.getString("btnAddToCart.text")); // NOI18N
+        btnAddToCart.setName("btnAddToCart"); // NOI18N
 
         jLabel10.setText(resourceMap.getString("jLabel10.text")); // NOI18N
         jLabel10.setName("jLabel10"); // NOI18N
 
-        jTextField9.setText(resourceMap.getString("jTextField9.text")); // NOI18N
-        jTextField9.setName("jTextField9"); // NOI18N
+        fieldFavCartName.setText(resourceMap.getString("fieldFavCartName.text")); // NOI18N
+        fieldFavCartName.setName("fieldFavCartName"); // NOI18N
 
         javax.swing.GroupLayout midHistorikLayout = new javax.swing.GroupLayout(midHistorik);
         midHistorik.setLayout(midHistorikLayout);
@@ -757,52 +807,52 @@ public class IMatView extends FrameView implements IView {
                         .addContainerGap()
                         .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midHistorikLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
+                                    .addComponent(btnRemoveFavCart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddFavCart, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)))
                     .addGroup(midHistorikLayout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(midHistorikLayout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField9))
+                                .addComponent(fieldFavCartName))
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)
+                        .addComponent(btnAddToCart, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         midHistorikLayout.setVerticalGroup(
             midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(midHistorikLayout.createSequentialGroup()
                 .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midHistorikLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton7)
-                        .addGap(86, 86, 86))
                     .addGroup(midHistorikLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midHistorikLayout.createSequentialGroup()
+                        .addContainerGap(117, Short.MAX_VALUE)
+                        .addComponent(btnAddFavCart)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRemoveFavCart)
+                        .addGap(72, 72, 72)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(midHistorikLayout.createSequentialGroup()
                         .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fieldFavCartName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
+                    .addComponent(btnAddToCart, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -815,15 +865,18 @@ public class IMatView extends FrameView implements IView {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButikLayout.createSequentialGroup()
                 .addComponent(butikLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butikRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(butikRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(110, 110, 110))
         );
         panelButikLayout.setVerticalGroup(
             panelButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
             .addComponent(butikLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(butikRight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButikLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(butikRight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainBot.add(panelButik, "card2");
@@ -861,12 +914,12 @@ public class IMatView extends FrameView implements IView {
         jTable1.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
         jTable1.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
 
-        jButton10.setFont(resourceMap.getFont("jButton10.font")); // NOI18N
-        jButton10.setText(resourceMap.getString("jButton10.text")); // NOI18N
-        jButton10.setName("jButton10"); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        btnPay2.setFont(resourceMap.getFont("btnPay2.font")); // NOI18N
+        btnPay2.setText(resourceMap.getString("btnPay2.text")); // NOI18N
+        btnPay2.setName("btnPay2"); // NOI18N
+        btnPay2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                btnPay2ActionPerformed(evt);
             }
         });
 
@@ -880,22 +933,22 @@ public class IMatView extends FrameView implements IView {
                     .addComponent(jLabel25)
                     .addGroup(panelCheckout1Layout.createSequentialGroup()
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(263, 263, 263)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(63, 63, 63))
+                        .addGap(485, 485, 485)
+                        .addComponent(btnPay2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(142, 142, 142))
         );
         panelCheckout1Layout.setVerticalGroup(
             panelCheckout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+            .addGroup(panelCheckout1Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
                 .addComponent(jLabel25)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout1Layout.createSequentialGroup()
-                .addContainerGap(434, Short.MAX_VALUE)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap(414, Short.MAX_VALUE)
+                .addComponent(btnPay2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57))
         );
 
         mainBot.add(panelCheckout1, "card3");
@@ -904,45 +957,15 @@ public class IMatView extends FrameView implements IView {
 
         jPanel3.setName("jPanel3"); // NOI18N
 
-        jLabel11.setFont(resourceMap.getFont("jLabel11.font")); // NOI18N
-        jLabel11.setText(resourceMap.getString("jLabel11.text")); // NOI18N
-        jLabel11.setName("jLabel11"); // NOI18N
-
-        jScrollPane6.setName("jScrollPane6"); // NOI18N
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setEditable(false);
-        jTextArea1.setFont(resourceMap.getFont("jTextArea1.font")); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setText(resourceMap.getString("jTextArea1.text")); // NOI18N
-        jTextArea1.setName("jTextArea1"); // NOI18N
-        jScrollPane6.setViewportView(jTextArea1);
-
-        jCheckBox1.setText(resourceMap.getString("jCheckBox1.text")); // NOI18N
-        jCheckBox1.setName("jCheckBox1"); // NOI18N
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-                    .addComponent(jLabel11))
-                .addContainerGap())
+            .addGap(0, 383, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 301, Short.MAX_VALUE)
         );
 
         jPanel5.setName("jPanel5"); // NOI18N
@@ -1151,14 +1174,31 @@ public class IMatView extends FrameView implements IView {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        jButton9.setFont(resourceMap.getFont("jButton9.font")); // NOI18N
-        jButton9.setText(resourceMap.getString("jButton9.text")); // NOI18N
-        jButton9.setName("jButton9"); // NOI18N
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnFinishBuy.setFont(resourceMap.getFont("btnFinishBuy.font")); // NOI18N
+        btnFinishBuy.setText(resourceMap.getString("btnFinishBuy.text")); // NOI18N
+        btnFinishBuy.setName("btnFinishBuy"); // NOI18N
+        btnFinishBuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnFinishBuyActionPerformed(evt);
             }
         });
+
+        jScrollPane6.setName("jScrollPane6"); // NOI18N
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
+        jTextArea1.setFont(resourceMap.getFont("jTextArea1.font")); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText(resourceMap.getString("jTextArea1.text")); // NOI18N
+        jTextArea1.setName("jTextArea1"); // NOI18N
+        jScrollPane6.setViewportView(jTextArea1);
+
+        jLabel11.setFont(resourceMap.getFont("jLabel11.font")); // NOI18N
+        jLabel11.setText(resourceMap.getString("jLabel11.text")); // NOI18N
+        jLabel11.setName("jLabel11"); // NOI18N
+
+        jCheckBox1.setText(resourceMap.getString("jCheckBox1.text")); // NOI18N
+        jCheckBox1.setName("jCheckBox1"); // NOI18N
 
         javax.swing.GroupLayout panelCheckout2Layout = new javax.swing.GroupLayout(panelCheckout2);
         panelCheckout2.setLayout(panelCheckout2Layout);
@@ -1169,26 +1209,42 @@ public class IMatView extends FrameView implements IView {
                 .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout2Layout.createSequentialGroup()
+                        .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox1)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout2Layout.createSequentialGroup()
+                        .addComponent(btnFinishBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))))
         );
         panelCheckout2Layout.setVerticalGroup(
             panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCheckout2Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCheckout2Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(32, Short.MAX_VALUE))
                     .addGroup(panelCheckout2Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelCheckout2Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCheckBox1))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addComponent(btnFinishBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60))))
         );
 
         mainBot.add(panelCheckout2, "card5");
@@ -1226,12 +1282,12 @@ public class IMatView extends FrameView implements IView {
         jTable3.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
         jTable3.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
 
-        jButton11.setFont(resourceMap.getFont("jButton11.font")); // NOI18N
-        jButton11.setText(resourceMap.getString("jButton11.text")); // NOI18N
-        jButton11.setName("jButton11"); // NOI18N
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        btnGoHome.setFont(resourceMap.getFont("btnGoHome.font")); // NOI18N
+        btnGoHome.setText(resourceMap.getString("btnGoHome.text")); // NOI18N
+        btnGoHome.setName("btnGoHome"); // NOI18N
+        btnGoHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                btnGoHomeActionPerformed(evt);
             }
         });
 
@@ -1244,19 +1300,19 @@ public class IMatView extends FrameView implements IView {
         panelCheckout3Layout.setHorizontalGroup(
             panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCheckout3Layout.createSequentialGroup()
-                .addContainerGap(300, Short.MAX_VALUE)
+                .addContainerGap(453, Short.MAX_VALUE)
                 .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout3Layout.createSequentialGroup()
-                        .addComponent(jLabel28)
-                        .addGap(315, 315, 315))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout3Layout.createSequentialGroup()
                         .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel27)
                             .addGroup(panelCheckout3Layout.createSequentialGroup()
                                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(156, 156, 156))))
+                                .addGap(146, 146, 146)
+                                .addComponent(btnGoHome, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(138, 138, 138))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout3Layout.createSequentialGroup()
+                        .addComponent(jLabel28)
+                        .addGap(469, 469, 469))))
         );
         panelCheckout3Layout.setVerticalGroup(
             panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1264,15 +1320,15 @@ public class IMatView extends FrameView implements IView {
                 .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelCheckout3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnGoHome, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelCheckout3Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addGap(24, 24, 24)
                         .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(jLabel27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51))
+                .addGap(58, 58, 58))
         );
 
         mainBot.add(panelCheckout3, "card4");
@@ -1282,135 +1338,109 @@ public class IMatView extends FrameView implements IView {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mainBot, javax.swing.GroupLayout.DEFAULT_SIZE, 1045, Short.MAX_VALUE)
+            .addComponent(mainBot, javax.swing.GroupLayout.DEFAULT_SIZE, 1342, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(mainTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainBot, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE))
+                .addComponent(mainBot, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
         );
 
-        statusPanel.setName("statusPanel"); // NOI18N
-
-        statusPanelSeparator.setName("statusPanelSeparator"); // NOI18N
-
-        statusMessageLabel.setName("statusMessageLabel"); // NOI18N
-
-        statusAnimationLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        statusAnimationLabel.setName("statusAnimationLabel"); // NOI18N
-
-        progressBar.setName("progressBar"); // NOI18N
-
-        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
-        statusPanel.setLayout(statusPanelLayout);
-        statusPanelLayout.setHorizontalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 1045, Short.MAX_VALUE)
-            .addGroup(statusPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 875, Short.MAX_VALUE)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(statusAnimationLabel)
-                .addContainerGap())
-        );
-        statusPanelLayout.setVerticalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statusPanelLayout.createSequentialGroup()
-                .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusMessageLabel)
-                    .addComponent(statusAnimationLabel)
-                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
-        );
+        productWindow1.setName("productWindow1"); // NOI18N
 
         setComponent(mainPanel);
-        setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
 private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
-    midButik.setVisible( false );
-    midLogin.setVisible( true );
-    midRegister.setVisible( false );
-    midHistorik.setVisible( false );
+    if(btnLogin.getText().equals("Logga In"))
+        showLoginPage();
+    else if(btnLogin.getText().equals("Historik")) {
+        showEarlierOrdersPage();
+        
+    }
     
 }//GEN-LAST:event_btnLoginActionPerformed
 
 private void btnButikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnButikActionPerformed
     
-    midButik.setVisible( true );
-    midLogin.setVisible( false );
-    midRegister.setVisible( false );
-    midHistorik.setVisible( false );
+    showMainShoppingPage();
     
 }//GEN-LAST:event_btnButikActionPerformed
 
-private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
     
-    midButik.setVisible( false );
-    midLogin.setVisible( false );
-    midRegister.setVisible( true );
-    midHistorik.setVisible( false );
+    showRegisterPage();
     
-}//GEN-LAST:event_jButton4ActionPerformed
+}//GEN-LAST:event_btnRegisterActionPerformed
 
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    midButik.setVisible( false );
-    midLogin.setVisible( false );
-    midRegister.setVisible( false );
-    midHistorik.setVisible( true );
-}//GEN-LAST:event_jButton2ActionPerformed
+private void btnEmptyBasketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmptyBasketActionPerformed
+    controller.emptyShoppingCart();
+}//GEN-LAST:event_btnEmptyBasketActionPerformed
 
 private void btnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuyActionPerformed
-    panelButik.setVisible(false);
-    panelCheckout1.setVisible(true);
-    panelCheckout2.setVisible(false);
-    panelCheckout3.setVisible(false);
+    showCheckoutPage();
 }//GEN-LAST:event_btnBuyActionPerformed
 
-private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-    panelCheckout1.setVisible(false);
-    panelCheckout2.setVisible(true);
-    panelCheckout3.setVisible(false);
-}//GEN-LAST:event_jButton10ActionPerformed
+private void btnPay2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPay2ActionPerformed
+    showPaymentPage(null);
+}//GEN-LAST:event_btnPay2ActionPerformed
 
-private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-    panelCheckout1.setVisible(false);
-    panelCheckout2.setVisible(false);
-    panelCheckout3.setVisible(true);
-}//GEN-LAST:event_jButton9ActionPerformed
+private void btnFinishBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishBuyActionPerformed
+    showFinishedPaymentPage(null);
+}//GEN-LAST:event_btnFinishBuyActionPerformed
 
-private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-    panelCheckout1.setVisible(false);
-    panelCheckout2.setVisible(false);
-    panelCheckout3.setVisible(false);
-    panelButik.setVisible(true);
-}//GEN-LAST:event_jButton11ActionPerformed
+private void btnGoHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeActionPerformed
+    showMainShoppingPage();
+}//GEN-LAST:event_btnGoHomeActionPerformed
+
+private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+    controller.searchFor( fieldSearch.getText() );
+}//GEN-LAST:event_btnSearchActionPerformed
+
+private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+    controller.showCategory( CategoryHandler.stringToCategory(  jTree1.getLastSelectedPathComponent().toString()) );
+}//GEN-LAST:event_jTree1MouseClicked
+
+private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    if(name.getText().length()>0&&surName.getText().length()>0&&userName.getText().length()>0&&pass.getText().length()>3&&passChk.getText().equals(pass.getText()))
+    {
+        System.out.println("Yes hello this is Patrick.");
+        if( !UserHandler.getInstance().registerUser(name.getText(), surName.getText(), userName.getText(), pass.getText()) ) {
+            //Tell user username already exists
+        }
+            
+    }
+}//GEN-LAST:event_jButton5ActionPerformed
+
+private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginCallActionPerformed
+    UserHandler.getInstance().login(usrName.getText(), pswd.getText());
+}//GEN-LAST:event_btnLoginCallActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddFavCart;
+    private javax.swing.JButton btnAddToCart;
     private javax.swing.JButton btnButik;
     private javax.swing.JButton btnBuy;
+    private javax.swing.JButton btnEmptyBasket;
+    private javax.swing.JButton btnFinishBuy;
+    private javax.swing.JButton btnGoHome;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnLoginCall;
+    private javax.swing.JButton btnPay2;
+    private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnRemoveFavCart;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JPanel butikLeft;
+    private javax.swing.JScrollPane butikList;
     private javax.swing.JPanel butikMid;
     private javax.swing.JPanel butikRight;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JLayeredPane butikSwitcher;
+    private javax.swing.JTextField fieldFavCartName;
+    private javax.swing.JTextField fieldSearch;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
@@ -1432,7 +1462,6 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
@@ -1442,8 +1471,6 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1460,10 +1487,8 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -1474,18 +1499,12 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JTree jTree1;
     private javax.swing.JTable kundvagn;
+    private javax.swing.JList listFavCarts;
+    private javax.swing.JList listOldCarts;
     private javax.swing.JLabel logoTop;
     private javax.swing.JPanel mainBot;
     private javax.swing.JPanel mainPanel;
@@ -1494,22 +1513,182 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JPanel midHistorik;
     private javax.swing.JPanel midLogin;
     private javax.swing.JPanel midRegister;
+    private javax.swing.JTextField name;
     private javax.swing.JPanel panelButik;
     private javax.swing.JPanel panelCheckout1;
     private javax.swing.JPanel panelCheckout2;
     private javax.swing.JPanel panelCheckout3;
-    private javax.swing.JProgressBar progressBar;
-    private javax.swing.JLabel statusAnimationLabel;
-    private javax.swing.JLabel statusMessageLabel;
-    private javax.swing.JPanel statusPanel;
+    private javax.swing.JTextField pass;
+    private javax.swing.JTextField passChk;
+    private imat.productWindow productWindow;
+    private imat.productWindow productWindow1;
+    private javax.swing.JTextField pswd;
+    private javax.swing.JTextField surName;
+    private javax.swing.JTable tblFavCart;
     private javax.swing.JPanel topMid;
+    private javax.swing.JTextField userName;
+    private javax.swing.JTextField usrName;
     // End of variables declaration//GEN-END:variables
 
-    private final Timer messageTimer;
-    private final Timer busyIconTimer;
-    private final Icon idleIcon;
-    private final Icon[] busyIcons = new Icon[15];
-    private int busyIconIndex = 0;
-
     private JDialog aboutBox;
+    
+    public void addProduct( Product p, double amount) {
+        controller.addProduct(p, amount);
+    }
+    
+    public void updateCart( Product p, double a ) {
+        controller.updateCart(p, a);
+    }
+
+    public ShoppingCartListener getShoppingCartListener() {
+        return null;
+    }
+
+    public void setFavoriteCartList(List<String> cartNames) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void displaySelectedCart(NamedOrder order) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void closeProductWindow() {
+        butikSwitcher.moveToFront( butikList );
+        butikSwitcher.moveToBack( productWindow );
+    }
+
+    public void openProductWindow(Product product) {
+        productWindow.setProduct( product );
+        butikSwitcher.moveToFront( productWindow );
+        butikSwitcher.moveToBack( butikList );
+    }
+
+    public void showFinishedPaymentPage(Order order) {
+        panelCheckout1.setVisible(false);
+    panelCheckout2.setVisible(false);
+    panelCheckout3.setVisible(true);
+    }
+
+    public void termsNotAccepted() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void noSuchUser() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void openCheckoutProductWindow(Product product) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean confirmClearShoppingCart() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void showProducts(List<Product> products) {
+        //List products in the main shop view
+        
+        //Create inner panel to store shit
+        JPanel innerPanel = new JPanel();
+        //Set layout to flowlayout to get nice listing
+        innerPanel.setLayout( new FlowLayout(FlowLayout.LEFT) );
+        innerPanel.setPreferredSize( new Dimension(0,0) );  //Panel won't scale properly unless we do this
+        //Add inner panel
+        butikList.getViewport().add(innerPanel);
+        
+        //Iterate through list 
+        Iterator it = products.iterator();
+        while( it.hasNext() )
+        {
+            Product element = (Product) it.next();
+            
+            //Add product to panel
+            shopItem i = new shopItem( element );
+            if(isFavorite(element))
+                i.setBorder( BorderFactory.createLineBorder(Color.red));
+                
+            innerPanel.add( i );
+        }
+        
+        //Add the items
+        
+        //GOD DAMN IT
+        butikList.setPreferredSize( new Dimension(0,1050));
+        innerPanel.revalidate();
+        innerPanel.validate();
+        butikList.revalidate();
+        butikList.validate();  
+        
+    }
+    
+    public boolean isFavorite( Product p ) {
+        return controller.isFavorite( p );
+    }
+    
+    public void toggleFavorite( Product p ) {
+        controller.toggleFavorite( p );
+    }
+
+    public void showCheckoutPage() {
+        panelButik.setVisible(false);
+        panelCheckout1.setVisible(true);
+        panelCheckout2.setVisible(false);
+        panelCheckout3.setVisible(false);
+    }
+
+    public void showEarlierOrdersPage() {
+        midButik.setVisible( false );
+        midLogin.setVisible( false );
+        midRegister.setVisible( false );
+        midHistorik.setVisible( true );
+    }
+
+    public void showLoginPage() {
+        panelCheckout1.setVisible(false);
+        panelCheckout2.setVisible(false);
+        panelCheckout3.setVisible(false);
+        midButik.setVisible( false );
+        midLogin.setVisible( true );
+        midRegister.setVisible( false );
+        midHistorik.setVisible( false );
+    }
+
+    public void showPaymentPage(PaymentInfo paymentInfo) {
+        panelCheckout1.setVisible(false);
+        panelCheckout2.setVisible(true);
+        panelCheckout3.setVisible(false);
+    }
+
+    public void showRegisterPage() {
+        midButik.setVisible( false );
+        midLogin.setVisible( false );
+        midRegister.setVisible( true );
+        midHistorik.setVisible( false );
+    }
+
+    public void showWelcomePage() {
+        
+    }
+
+    public void passwordsNotMatching() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void showMainShoppingPage() {
+        panelCheckout1.setVisible(false);
+        panelCheckout2.setVisible(false);
+        panelCheckout3.setVisible(false);
+        midButik.setVisible( true );
+        midLogin.setVisible( false );
+        midRegister.setVisible( false );
+        midHistorik.setVisible( false );
+    }
+
+    public void setLoggedInUser(IMatUser loggedInUser) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public JButton getLoginBtn() {
+        return btnLogin;
+    }
 }

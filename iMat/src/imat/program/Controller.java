@@ -13,6 +13,7 @@ import se.chalmers.ait.dat215.project.Product;
  * @author Plankton555
  * @version (2012-02-27)
  */
+
 public class Controller implements IController {
 
 	IView view;
@@ -20,20 +21,26 @@ public class Controller implements IController {
 	CategoryHandler categoryHandler;
 	OrderHandler orderHandler;
 	UserHandler userHandler;
-	
+        private static Controller c;
+                
 	public Controller(IView view)
 	{
-		this.view = view;
-		database = IMatDataHandler.getInstance();
-		categoryHandler = CategoryHandler.getInstance();
-		orderHandler = OrderHandler.getInstance();
-		userHandler = UserHandler.getInstance();
-		
-		showStartPage();
-		
-		database.getShoppingCart().addShoppingCartListener(view.getShoppingCartListener());
+            c = this;
+            this.view = view;
+            database = IMatDataHandler.getInstance();
+            categoryHandler = CategoryHandler.getInstance();
+            orderHandler = OrderHandler.getInstance();
+            userHandler = UserHandler.getInstance();
+
+            showStartPage();
+
+            database.getShoppingCart().addShoppingCartListener(view.getShoppingCartListener());
 	}
 	
+        public static Controller getController() {
+            return c;
+        }
+        
 	@Override
 	public void showStartPage() {
 		view.showWelcomePage();
@@ -224,6 +231,13 @@ public class Controller implements IController {
 			database.addFavorite(product);
 		}
 	}
+        
+        public boolean isFavorite(Product product) {
+            if (database.isFavorite(product))
+                return true;
+            else
+                return false;
+        }
 
 	@Override
 	public void showShoppingCart(String cartName) {
@@ -247,4 +261,9 @@ public class Controller implements IController {
 		}
 		return outputList;
 	}
+
+    public void addProduct(Product p, double amount) {
+        orderHandler.addProduct(p, amount);
+    }
+
 }

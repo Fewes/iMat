@@ -63,29 +63,32 @@ public class OrderHandler {
 			return result;
 		}
 		String[] ordersText = input.split(";endl;");
-		for (int i=0; i<ordersText.length; i++)
-		{
-			String[] o = ordersText[i].split(";");
-			if (o.length % 2 == 0)
-			{
-				// Something is wrong in the file. Should be 3 + 2*n nr of items in the order.
-			}
-			String orderName = o[0];
-			Date orderDate = new Date(Long.parseLong(o[1]));
-			int orderNumber = Integer.parseInt(o[2]);
-			List<ShoppingItem> items = new ArrayList<ShoppingItem>();
-			for (int j=3; j<o.length; j+=2)
-			{
-				int idNbr = Integer.parseInt(o[j]);
-				double amount = Double.parseDouble(o[j+1]);
-				items.add(new ShoppingItem(database.getProduct(idNbr), amount));
-			}
-			NamedOrder order = new NamedOrder(orderName);
-			order.setDate(orderDate);
-			order.setOrderNumber(orderNumber);
-			order.setItems(items);
-			result.add(order);
-		}
+                if( ordersText.length > 1 ) //TODO: Dirty fix. Do something better
+                {
+                    for (int i=0; i<ordersText.length; i++)
+                    {
+                            String[] o = ordersText[i].split(";");
+                            if (o.length % 2 == 0)
+                            {
+                                    // Something is wrong in the file. Should be 3 + 2*n nr of items in the order.
+                            }
+                            String orderName = o[0];
+                            Date orderDate = new Date(Long.parseLong(o[1]));
+                            int orderNumber = Integer.parseInt(o[2]);
+                            List<ShoppingItem> items = new ArrayList<ShoppingItem>();
+                            for (int j=3; j<o.length; j+=2)
+                            {
+                                    int idNbr = Integer.parseInt(o[j]);
+                                    double amount = Double.parseDouble(o[j+1]);
+                                    items.add(new ShoppingItem(database.getProduct(idNbr), amount));
+                            }
+                            NamedOrder order = new NamedOrder(orderName);
+                            order.setDate(orderDate);
+                            order.setOrderNumber(orderNumber);
+                            order.setItems(items);
+                            result.add(order);
+                    }
+                }
 		return result;
 	}
 	
@@ -234,11 +237,17 @@ public class OrderHandler {
 		// for every item, check if that item product is in the cart
 		// if so, get amount, add to this item, remove product from shoppingcart, then add updated product
 	}
+        
+        public void addProduct(Product p, double amount) {
+            ShoppingCart cart = IMatDataHandler.getInstance().getShoppingCart();
+            //Null pointer exception. Dunno what's wrong but it's not my code. /Fwillebrand
+            cart.addProduct(p, amount);
+        }
 
 	public void update(Product product, double amount) {
-		ShoppingCart cart = IMatDataHandler.getInstance().getShoppingCart();
-		
-		cart.removeProduct(product);
-		cart.addProduct(product, amount);
+            ShoppingCart cart = IMatDataHandler.getInstance().getShoppingCart();
+
+            cart.removeProduct(product);
+            cart.addProduct(product, amount);
 	}
 }

@@ -29,7 +29,7 @@ public class CategoryHandler {
 		return instance;
 	}
 	
-	public Category stringToCategory(String categoryName)
+	public static Category stringToCategory(String categoryName)
 	{
 		if (categoryName.equalsIgnoreCase("Favoriter"))
 		{
