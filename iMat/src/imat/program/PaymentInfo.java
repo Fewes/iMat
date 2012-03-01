@@ -4,7 +4,7 @@ package imat.program;
 /**
  * A class containing payment information.
  * @author Plankton555
- * @version (2012-02-29)
+ * @version (2012-03-01)
  */
 public class PaymentInfo {
 
@@ -226,9 +226,13 @@ public class PaymentInfo {
 		{
 			return CardType.VISA;
 		}
-		else
+                else if (string.equalsIgnoreCase("MasterCard"))
 		{
 			return CardType.MasterCard;
 		}
+                else
+                {
+                    return CardType.NoChosen;
+                }
 	}
 }
