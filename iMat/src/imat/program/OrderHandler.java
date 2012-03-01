@@ -20,7 +20,7 @@ import se.chalmers.ait.dat215.project.ShoppingItem;
 /**
  * Handles the favorite orders.
  * @author Plankton555
- * @version (2012-02-29)
+ * @version (2012-03-01)
  */
 public class OrderHandler {
 
@@ -114,26 +114,6 @@ public class OrderHandler {
 			dataString.append("endl;");
 		}
 		
-		/*
-		 * String dataString = "";
-		for (NamedOrder order : favOrders)
-		{
-			dataString = dataString
-					+ order.getName() + ';'
-					+ order.getDate().getTime() + ';'
-					+ order.getOrderNumber() + ';';
-			
-			for (ShoppingItem item : order.getItems())
-			{
-				dataString = dataString
-						+ item.getProduct().getProductId() + ';'
-						+ item.getAmount() + ';';
-			}
-		
-			dataString = dataString + "endl;";
-		}
-		 */
-		
 		// Creates the folder if necessary
 		File folder = new File(folderPath);
 		if (!folder.exists())
@@ -159,7 +139,7 @@ public class OrderHandler {
 	
 	public void updateOrderHandler()
 	{
-		allOrders = IMatDataHandler.getInstance().getOrders();
+		allOrders = database.getOrders();
 	}
 	
 	public void addFavorite(String cartName, String favName)
@@ -219,7 +199,7 @@ public class OrderHandler {
 			}
 		}
 		List<ShoppingItem> items = order.getItems();
-		ShoppingCart cart = IMatDataHandler.getInstance().getShoppingCart();
+		ShoppingCart cart = database.getShoppingCart();
 		List<ShoppingItem> cartItems = cart.getItems();
 		
 		for (ShoppingItem item : items)
@@ -238,14 +218,24 @@ public class OrderHandler {
 		// if so, get amount, add to this item, remove product from shoppingcart, then add updated product
 	}
         
-        public void addProduct(Product p, double amount) {
-            ShoppingCart cart = IMatDataHandler.getInstance().getShoppingCart();
-            //Null pointer exception. Dunno what's wrong but it's not my code. /Fwillebrand
-            cart.addProduct(p, amount);
+        public void addProduct(Product product, double amount) {
+            ShoppingCart cart = database.getShoppingCart();
+            List<ShoppingItem> cartItems = cart.getItems();
+            for (int i=0; i<cartItems.size(); i++)
+            {
+                if (product.equals(cartItems.get(i).getProduct()))
+                {
+                    double newAmount = cartItems.get(i).getAmount()+amount;
+                    cart.removeProduct(product);
+                    cart.addProduct(product, newAmount);
+                    return;
+                }
+            }
+            cart.addProduct(product, amount);
         }
 
 	public void update(Product product, double amount) {
-            ShoppingCart cart = IMatDataHandler.getInstance().getShoppingCart();
+            ShoppingCart cart = database.getShoppingCart();
 
             cart.removeProduct(product);
             cart.addProduct(product, amount);
