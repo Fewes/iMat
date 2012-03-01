@@ -25,9 +25,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingCartListener;
+import se.chalmers.ait.dat215.project.ShoppingItem;
 
 /**
  * The application's main frame.
@@ -35,6 +38,36 @@ import se.chalmers.ait.dat215.project.ShoppingCartListener;
 public class IMatView extends FrameView implements IView {
 
     IController controller;
+    ShoppingCartListener cartListener = new ShoppingCartListener() {
+
+        public void shoppingCartChanged() {
+            //IMatDataHandler.getInstance().getShoppingCart().getItems();
+            
+            kundvagn.removeAll();
+            
+            List<ShoppingItem> items = IMatDataHandler.getInstance().getShoppingCart().getItems();
+            DefaultTableModel dm = new DefaultTableModel();
+            dm.addColumn("Produkt");
+            dm.addColumn("Mängd");
+            dm.addColumn("Pris");
+            //Iterate through list 
+            Iterator it = items.iterator();
+            
+            System.out.println( items.size() );
+            
+            while( it.hasNext() )
+            {
+                ShoppingItem i = (ShoppingItem) it.next();
+                //kundvagn.add
+                dm.addRow( new Object[]{i.getProduct().getName(),i.getAmount() + " " + i.getProduct().getUnitSuffix(),i.getTotal() + " kr"} );
+            }
+             
+            kundvagn.setModel(dm);
+            
+            
+            
+        }
+    };
     static IMatView view;
     public IMatView(SingleFrameApplication app) {
         super(app);
@@ -181,6 +214,7 @@ public class IMatView extends FrameView implements IView {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(imat.IMatApp.class).getContext().getResourceMap(IMatView.class);
         mainPanel.setBackground(resourceMap.getColor("mainPanel.background")); // NOI18N
         mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         mainTop.setBackground(resourceMap.getColor("mainTop.background")); // NOI18N
         mainTop.setName("mainTop"); // NOI18N
@@ -210,6 +244,27 @@ public class IMatView extends FrameView implements IView {
             }
         });
 
+        javax.swing.GroupLayout topMidLayout = new javax.swing.GroupLayout(topMid);
+        topMid.setLayout(topMidLayout);
+        topMidLayout.setHorizontalGroup(
+            topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
+                .addGap(182, 182, 182)
+                .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(282, 282, 282))
+        );
+        topMidLayout.setVerticalGroup(
+            topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topMidLayout.createSequentialGroup()
+                .addContainerGap(81, Short.MAX_VALUE)
+                .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         btnBuy.setIcon(resourceMap.getIcon("btnBuy.icon")); // NOI18N
         btnBuy.setText(resourceMap.getString("btnBuy.text")); // NOI18N
         btnBuy.setName("btnBuy"); // NOI18N
@@ -218,32 +273,6 @@ public class IMatView extends FrameView implements IView {
                 btnBuyActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout topMidLayout = new javax.swing.GroupLayout(topMid);
-        topMid.setLayout(topMidLayout);
-        topMidLayout.setHorizontalGroup(
-            topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(126, 126, 126)
-                .addComponent(btnBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-        );
-        topMidLayout.setVerticalGroup(
-            topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topMidLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
-                        .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addComponent(btnBuy, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE)))
-        );
 
         javax.swing.GroupLayout mainTopLayout = new javax.swing.GroupLayout(mainTop);
         mainTop.setLayout(mainTopLayout);
@@ -254,7 +283,9 @@ public class IMatView extends FrameView implements IView {
                 .addComponent(logoTop)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(topMid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(132, 132, 132))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(134, 134, 134))
         );
         mainTopLayout.setVerticalGroup(
             mainTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +293,12 @@ public class IMatView extends FrameView implements IView {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainTopLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(logoTop))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainTopLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnBuy, 0, 0, Short.MAX_VALUE))
         );
+
+        mainPanel.add(mainTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         mainBot.setName("mainBot"); // NOI18N
         mainBot.setLayout(new java.awt.CardLayout());
@@ -453,10 +489,10 @@ public class IMatView extends FrameView implements IView {
                     .addGroup(butikRightLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                            .addComponent(btnEmptyBasket, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEmptyBasket, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)))
                     .addGroup(butikRightLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
+                        .addGap(66, 66, 66)
                         .addComponent(jLabel1)))
                 .addContainerGap())
         );
@@ -856,7 +892,7 @@ public class IMatView extends FrameView implements IView {
                 .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(butikRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(110, 110, 110))
+                .addGap(127, 127, 127))
         );
         panelButikLayout.setVerticalGroup(
             panelButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -923,7 +959,7 @@ public class IMatView extends FrameView implements IView {
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(485, 485, 485)
                         .addComponent(btnPay2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(142, 142, 142))
+                .addGap(159, 159, 159))
         );
         panelCheckout1Layout.setVerticalGroup(
             panelCheckout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1202,7 +1238,7 @@ public class IMatView extends FrameView implements IView {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout2Layout.createSequentialGroup()
                         .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox1)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                             .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1288,7 +1324,7 @@ public class IMatView extends FrameView implements IView {
         panelCheckout3Layout.setHorizontalGroup(
             panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCheckout3Layout.createSequentialGroup()
-                .addContainerGap(453, Short.MAX_VALUE)
+                .addContainerGap(470, Short.MAX_VALUE)
                 .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout3Layout.createSequentialGroup()
                         .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1321,20 +1357,7 @@ public class IMatView extends FrameView implements IView {
 
         mainBot.add(panelCheckout3, "card4");
 
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mainBot, javax.swing.GroupLayout.DEFAULT_SIZE, 1342, Short.MAX_VALUE)
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(mainTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainBot, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
-        );
+        mainPanel.add(mainBot, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 132, 1359, -1));
 
         productWindow1.setName("productWindow1"); // NOI18N
 
@@ -1529,9 +1552,7 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public ShoppingCartListener getShoppingCartListener() {
-        // TODO Skall EJ returnera null, ska returnera den ShoppingCartListener som sköter uppdateringen av kundvagnen.
-        // Slänger en NullPointerException i databasen annars.
-        return null;
+        return cartListener;
     }
 
     public void setFavoriteCartList(List<String> cartNames) {
@@ -1573,7 +1594,8 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public boolean confirmClearShoppingCart() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        kundvagn.removeAll();
+        return true;
     }
 
     public void showProducts(List<Product> products) {
@@ -1658,7 +1680,7 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public void showWelcomePage() {
-        
+        cartListener.shoppingCartChanged(); //TODO: Fy skäms!
     }
 
     public void passwordsNotMatching() {
