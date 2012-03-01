@@ -50,6 +50,13 @@ public class IMatView extends FrameView implements IView {
             dm.addColumn("Produkt");
             dm.addColumn("Mängd");
             dm.addColumn("Pris");
+            
+            DefaultTableModel dm2 = new DefaultTableModel();
+            dm2.addColumn("Produkt");
+            dm2.addColumn("Mängd");
+            dm2.addColumn("Pris/Mängd");
+            dm2.addColumn("Pris");
+            
             //Iterate through list 
             Iterator it = items.iterator();
             
@@ -59,16 +66,32 @@ public class IMatView extends FrameView implements IView {
             {
                 ShoppingItem i = (ShoppingItem) it.next();
                 //kundvagn.add
-                dm.addRow( new Object[]{i.getProduct().getName(),i.getAmount() + " " + i.getProduct().getUnitSuffix(),i.getTotal() + " kr"} );
+                
+                dm.addRow( new Object[]{
+                    i.getProduct().getName(),
+                    i.getAmount() + " " + i.getProduct().getUnitSuffix(),
+                    i.getTotal() + " kr"}
+                );
+                
+                dm2.addRow( new Object[]{
+                    i.getProduct().getName(),
+                    i.getAmount() + " " + i.getProduct().getUnitSuffix(),
+                    i.getProduct().getPrice() + " kr/" + i.getProduct().getUnitSuffix(),
+                    i.getTotal() + " kr"}
+                );
             }
              
             kundvagn.setModel(dm);
+            checkout1Cart.setModel(dm2);
+            checkout3Cart.setModel(dm2);
             
             
             
         }
     };
     static IMatView view;
+    private List<Product> lastProducts;
+    private Product lastProduct;
     public IMatView(SingleFrameApplication app) {
         super(app);
         view = this;
@@ -165,8 +188,9 @@ public class IMatView extends FrameView implements IView {
         panelCheckout1 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        checkout1Cart = new javax.swing.JTable();
         btnPay2 = new javax.swing.JButton();
+        checkoutProduct = new imat.productWindow();
         panelCheckout2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -206,7 +230,7 @@ public class IMatView extends FrameView implements IView {
         panelCheckout3 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        checkout3Cart = new javax.swing.JTable();
         btnGoHome = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         productWindow1 = new imat.productWindow();
@@ -519,7 +543,7 @@ public class IMatView extends FrameView implements IView {
         butikList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         butikList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         butikList.setName("butikList"); // NOI18N
-        butikList.setBounds(0, 0, 920, 500);
+        butikList.setBounds(0, 0, 830, 500);
         butikSwitcher.add(butikList, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         productWindow.setName("productWindow"); // NOI18N
@@ -906,14 +930,16 @@ public class IMatView extends FrameView implements IView {
         mainBot.add(panelButik, "card2");
 
         panelCheckout1.setName("panelCheckout1"); // NOI18N
+        panelCheckout1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel25.setFont(resourceMap.getFont("jLabel25.font")); // NOI18N
         jLabel25.setText(resourceMap.getString("jLabel25.text")); // NOI18N
         jLabel25.setName("jLabel25"); // NOI18N
+        panelCheckout1.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, -1, -1));
 
         jScrollPane7.setName("jScrollPane7"); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        checkout1Cart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -929,14 +955,21 @@ public class IMatView extends FrameView implements IView {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setName("jTable1"); // NOI18N
-        jScrollPane7.setViewportView(jTable1);
-        jTable1.getColumnModel().getColumn(0).setResizable(false);
-        jTable1.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("jTable1.columnModel.title0")); // NOI18N
-        jTable1.getColumnModel().getColumn(1).setResizable(false);
-        jTable1.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("jTable1.columnModel.title1")); // NOI18N
-        jTable1.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
-        jTable1.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
+        checkout1Cart.setName("checkout1Cart"); // NOI18N
+        checkout1Cart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkout1CartMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(checkout1Cart);
+        checkout1Cart.getColumnModel().getColumn(0).setResizable(false);
+        checkout1Cart.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("checkout1Cart.columnModel.title0")); // NOI18N
+        checkout1Cart.getColumnModel().getColumn(1).setResizable(false);
+        checkout1Cart.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("checkout1Cart.columnModel.title1")); // NOI18N
+        checkout1Cart.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("checkout1Cart.columnModel.title2")); // NOI18N
+        checkout1Cart.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("checkout1Cart.columnModel.title3")); // NOI18N
+
+        panelCheckout1.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, -1, 397));
 
         btnPay2.setFont(resourceMap.getFont("btnPay2.font")); // NOI18N
         btnPay2.setText(resourceMap.getString("btnPay2.text")); // NOI18N
@@ -946,34 +979,10 @@ public class IMatView extends FrameView implements IView {
                 btnPay2ActionPerformed(evt);
             }
         });
+        panelCheckout1.add(btnPay2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 450, 155, 30));
 
-        javax.swing.GroupLayout panelCheckout1Layout = new javax.swing.GroupLayout(panelCheckout1);
-        panelCheckout1.setLayout(panelCheckout1Layout);
-        panelCheckout1Layout.setHorizontalGroup(
-            panelCheckout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCheckout1Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addGroup(panelCheckout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel25)
-                    .addGroup(panelCheckout1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(485, 485, 485)
-                        .addComponent(btnPay2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(159, 159, 159))
-        );
-        panelCheckout1Layout.setVerticalGroup(
-            panelCheckout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCheckout1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(jLabel25)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout1Layout.createSequentialGroup()
-                .addContainerGap(414, Short.MAX_VALUE)
-                .addComponent(btnPay2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
-        );
+        checkoutProduct.setName("checkoutProduct"); // NOI18N
+        panelCheckout1.add(checkoutProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, -1, -1));
 
         mainBot.add(panelCheckout1, "card3");
 
@@ -1281,7 +1290,7 @@ public class IMatView extends FrameView implements IView {
 
         jScrollPane8.setName("jScrollPane8"); // NOI18N
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        checkout3Cart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1297,14 +1306,14 @@ public class IMatView extends FrameView implements IView {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.setName("jTable3"); // NOI18N
-        jScrollPane8.setViewportView(jTable3);
-        jTable3.getColumnModel().getColumn(0).setResizable(false);
-        jTable3.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("jTable1.columnModel.title0")); // NOI18N
-        jTable3.getColumnModel().getColumn(1).setResizable(false);
-        jTable3.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("jTable1.columnModel.title1")); // NOI18N
-        jTable3.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
-        jTable3.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
+        checkout3Cart.setName("checkout3Cart"); // NOI18N
+        jScrollPane8.setViewportView(checkout3Cart);
+        checkout3Cart.getColumnModel().getColumn(0).setResizable(false);
+        checkout3Cart.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("jTable1.columnModel.title0")); // NOI18N
+        checkout3Cart.getColumnModel().getColumn(1).setResizable(false);
+        checkout3Cart.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("jTable1.columnModel.title1")); // NOI18N
+        checkout3Cart.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
+        checkout3Cart.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
 
         btnGoHome.setFont(resourceMap.getFont("btnGoHome.font")); // NOI18N
         btnGoHome.setText(resourceMap.getString("btnGoHome.text")); // NOI18N
@@ -1393,6 +1402,8 @@ private void btnEmptyBasketActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
 private void btnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuyActionPerformed
     showCheckoutPage();
+    checkoutProduct.hideFav();
+    checkoutProduct.setBtnText("Uppdatera Kundvagn");
 }//GEN-LAST:event_btnBuyActionPerformed
 
 private void btnPay2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPay2ActionPerformed
@@ -1430,6 +1441,19 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     UserHandler.getInstance().login(usrName.getText(), pswd.getText());
 }//GEN-LAST:event_btnLoginCallActionPerformed
 
+private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkout1CartMouseClicked
+    
+    checkoutProduct.hideFav();
+    checkoutProduct.setBtnText("Uppdatera Kundvagn");
+    
+    Product p = IMatDataHandler.getInstance().getShoppingCart().getItems().get(checkout1Cart.getSelectedRows()[0]).getProduct();
+    
+    //checkout1Cart.getSelectedRows()[0];
+    checkoutProduct.setProduct( p );
+    checkoutProduct.hideFav();
+    
+}//GEN-LAST:event_checkout1CartMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFavCart;
     private javax.swing.JButton btnAddToCart;
@@ -1449,6 +1473,9 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JPanel butikMid;
     private javax.swing.JPanel butikRight;
     private javax.swing.JLayeredPane butikSwitcher;
+    private javax.swing.JTable checkout1Cart;
+    private javax.swing.JTable checkout3Cart;
+    private imat.productWindow checkoutProduct;
     private javax.swing.JTextField fieldFavCartName;
     private javax.swing.JTextField fieldSearch;
     private javax.swing.JButton jButton5;
@@ -1497,8 +1524,6 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -1569,6 +1594,10 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public void openProductWindow(Product product) {
+        if(product == null)
+            product = lastProduct;
+        else
+            lastProduct = product;
         productWindow.setProduct( product );
         butikSwitcher.moveToFront( productWindow );
         butikSwitcher.moveToBack( butikList );
@@ -1598,7 +1627,12 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         return true;
     }
 
+    void showLastProducts() {
+        showProducts(lastProducts);
+    }
+    
     public void showProducts(List<Product> products) {
+        lastProducts = products;
         //List products in the main shop view
         
         //Create inner panel to store shit
@@ -1706,4 +1740,5 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     public JButton getLoginBtn() {
         return btnLogin;
     }
+
 }

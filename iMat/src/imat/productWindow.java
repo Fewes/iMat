@@ -35,6 +35,9 @@ public class productWindow extends javax.swing.JPanel {
         
         //Unhide close button
         btnCloseProductWindow.setVisible( true );
+        spnrAmount.setVisible(true);
+        spnrAmount.setValue( 1 );
+        jToggleButton1.setVisible(true);
         
         if(view.isFavorite(p))
             iconFav.setIcon( new ImageIcon("build/classes/imat/resources/starred.png") );
@@ -137,6 +140,9 @@ public class productWindow extends javax.swing.JPanel {
     btnCloseProductWindow.setText(resourceMap.getString("btnCloseProductWindow.text")); // NOI18N
     btnCloseProductWindow.setName("btnCloseProductWindow"); // NOI18N
     btnCloseProductWindow.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            btnCloseProductWindowMouseClicked(evt);
+        }
         public void mousePressed(java.awt.event.MouseEvent evt) {
             btnCloseProductWindowMousePressed(evt);
         }
@@ -212,6 +218,8 @@ private void btnCloseProductWindowActionPerformed(java.awt.event.ActionEvent evt
     IMatView.getView().closeProductWindow();
     //Hide close button
     btnCloseProductWindow.setVisible( false );
+    spnrAmount.setVisible( false );
+    jToggleButton1.setVisible( false );
 }//GEN-LAST:event_btnCloseProductWindowActionPerformed
 
 private void btnCloseProductWindowMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseProductWindowMousePressed
@@ -228,11 +236,17 @@ private void iconFavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
             iconFav.setIcon( new ImageIcon("build/classes/imat/resources/starred.png") );
         else
             iconFav.setIcon( new ImageIcon("build/classes/imat/resources/unstarred.png") );
+    IMatView.getView().showLastProducts();
+    IMatView.getView().openProductWindow(null);
 }//GEN-LAST:event_iconFavMouseClicked
 
 private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
     IMatView.getView().addProduct(prod, Integer.parseInt( spnrAmount.getValue().toString() ));
 }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+private void btnCloseProductWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseProductWindowMouseClicked
+// TODO add your handling code here:
+}//GEN-LAST:event_btnCloseProductWindowMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCloseProductWindow;
@@ -246,4 +260,13 @@ private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JLabel priceTotal;
     private javax.swing.JSpinner spnrAmount;
     // End of variables declaration//GEN-END:variables
+
+    void hideFav() {
+        iconFav.setVisible(false);
+        btnCloseProductWindow.setVisible(false);
+    }
+
+    void setBtnText(String string) {
+        jToggleButton1.setText(string);
+    }
 }
