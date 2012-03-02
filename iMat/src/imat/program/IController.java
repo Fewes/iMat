@@ -123,7 +123,7 @@ public interface IController
 	 * Places the order.
 	 * @param termsAccepted True if the terms of agreement is accepted, otherwise false.
 	 */
-	public void finishPayment(PaymentInfo paymentInfo, boolean termsAccepted);
+	public void finishPayment(PaymentInfo paymentInfo);
 	
 	/**
 	 * Shuts the program down.

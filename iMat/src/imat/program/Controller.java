@@ -192,19 +192,13 @@ public class Controller implements IController {
 	}
 
 	@Override
-	public void finishPayment(PaymentInfo paymentInfo, boolean termsAccepted) {
+	public void finishPayment(PaymentInfo paymentInfo) {
 		
-		if (termsAccepted)
-		{
+		
 			validatePayment(paymentInfo);
 			
 			Order order = database.placeOrder();
 			view.showFinishedPaymentPage(order);
-		}
-		else
-		{
-			view.termsNotAccepted();
-		}
 	}
 
 	private void validatePayment(PaymentInfo paymentInfo) {

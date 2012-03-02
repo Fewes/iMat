@@ -18,10 +18,11 @@ public class PaymentInfo {
 	private String lastName;
 	private String postAddress;
 	private String postCode;
+        private String postCity;
 	private String phoneNumber;
 	private String cardNumber;
 	private String cardHoldersName;
-	private int verificationCode;
+	private String verificationCode;
 	private int validYear;
 	private int validMonth;
 	
@@ -35,9 +36,11 @@ public class PaymentInfo {
             this.lastName = "";
             this.postAddress = "";
             this.postCode = "";
+            this.postCity = "";
             this.phoneNumber = "";
             this.cardNumber = "";
             this.cardHoldersName = "";
+            this.verificationCode = "";
 	}
 	
 	/**
@@ -57,7 +60,7 @@ public class PaymentInfo {
 	 */
 	public PaymentInfo(String firstName, String lastName, String postAddress,
 			String postCode, String city, String phoneNumber, CardType cardType,
-			String cardNumber, String cardHoldersName, int verificationCode,
+			String cardNumber, String cardHoldersName, String verificationCode,
 			int validMonth, int validYear)
 	{
 		this.cardHoldersName = cardHoldersName;
@@ -67,6 +70,7 @@ public class PaymentInfo {
 		this.phoneNumber = phoneNumber;
 		this.postAddress = postAddress;
 		this.postCode = postCode;
+                this.postCity = city;
 		this.validMonth = validMonth;
 		this.validYear = validYear;
 		this.verificationCode = verificationCode;
@@ -127,6 +131,20 @@ public class PaymentInfo {
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
 	}
+        
+        /**
+	 * @return the postCity
+	 */
+	public String getPostCity() {
+		return postCity;
+	}
+
+	/**
+	 * @param postCity the postCity to set
+	 */
+	public void setPostCity(String postCity) {
+		this.postCity = postCity;
+	}
 
 	/**
 	 * @return the phoneNumber
@@ -181,14 +199,14 @@ public class PaymentInfo {
 	/**
 	 * @return the verificationCode
 	 */
-	public int getVerificationCode() {
+	public String getVerificationCode() {
 		return verificationCode;
 	}
 
 	/**
 	 * @param verificationCode the verificationCode to set
 	 */
-	public void setVerificationCode(int verificationCode) {
+	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
 

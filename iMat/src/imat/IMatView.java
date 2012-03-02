@@ -108,6 +108,17 @@ public class IMatView extends FrameView implements IView {
 
         this.controller = new Controller(this);
         
+        
+        lblFirstName.setVisible(false);
+        lblLastName.setVisible(false);
+        lblPostAddress.setVisible(false);
+        lblPostCity.setVisible(false);
+        lblPostCode.setVisible(false);
+        lblPayAccept.setVisible(false);
+        lblCardHolder.setVisible(false);
+        lblCardNbr.setVisible(false);
+        lblCvc.setVisible(false);
+        
     }
     
     public static IMatView getView(){
@@ -211,8 +222,7 @@ public class IMatView extends FrameView implements IView {
         payName = new javax.swing.JTextField();
         paySurname = new javax.swing.JTextField();
         payAdress = new javax.swing.JTextField();
-        payPostal = new javax.swing.JTextField();
-        payArea = new javax.swing.JTextField();
+        payCity = new javax.swing.JTextField();
         payPhone = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -220,25 +230,38 @@ public class IMatView extends FrameView implements IView {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        payArea = new javax.swing.JFormattedTextField();
+        lblFirstName = new javax.swing.JLabel();
+        lblLastName = new javax.swing.JLabel();
+        lblPostAddress = new javax.swing.JLabel();
+        lblPostCode = new javax.swing.JLabel();
+        lblPostCity = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         payCardholder = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        payCard = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        payCvc = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         payExpireMonth = new javax.swing.JComboBox();
         jLabel24 = new javax.swing.JLabel();
         payExpireYear = new javax.swing.JComboBox();
         payCardType = new javax.swing.JComboBox();
         jLabel30 = new javax.swing.JLabel();
+        payCard1 = new javax.swing.JFormattedTextField();
+        payCard2 = new javax.swing.JFormattedTextField();
+        payCard3 = new javax.swing.JFormattedTextField();
+        payCard4 = new javax.swing.JFormattedTextField();
+        payCvc = new javax.swing.JFormattedTextField();
+        lblCardHolder = new javax.swing.JLabel();
+        lblCardNbr = new javax.swing.JLabel();
+        lblCvc = new javax.swing.JLabel();
         btnFinishBuy = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         payAccept = new javax.swing.JCheckBox();
+        lblPayAccept = new javax.swing.JLabel();
         panelCheckout3 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -906,55 +929,159 @@ public class IMatView extends FrameView implements IView {
         panelCheckout2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(901, 52, -1, -1));
 
         jPanel5.setName("jPanel5"); // NOI18N
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setFont(resourceMap.getFont("jLabel12.font")); // NOI18N
         jLabel12.setText(resourceMap.getString("jLabel12.text")); // NOI18N
         jLabel12.setName("jLabel12"); // NOI18N
-        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 11, -1, -1));
 
         payName.setText(resourceMap.getString("payName.text")); // NOI18N
         payName.setName("payName"); // NOI18N
-        jPanel5.add(payName, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 46, 153, -1));
 
         paySurname.setName("paySurname"); // NOI18N
-        jPanel5.add(paySurname, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 72, 153, -1));
 
         payAdress.setName("payAdress"); // NOI18N
-        jPanel5.add(payAdress, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 98, 153, -1));
 
-        payPostal.setName("payPostal"); // NOI18N
-        jPanel5.add(payPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 124, 153, -1));
-
-        payArea.setName("payArea"); // NOI18N
-        jPanel5.add(payArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 150, 153, -1));
+        payCity.setName("payCity"); // NOI18N
 
         payPhone.setName("payPhone"); // NOI18N
-        jPanel5.add(payPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 176, 153, -1));
 
         jLabel13.setText(resourceMap.getString("jLabel13.text")); // NOI18N
         jLabel13.setName("jLabel13"); // NOI18N
-        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 49, -1, -1));
 
         jLabel14.setText(resourceMap.getString("jLabel14.text")); // NOI18N
         jLabel14.setName("jLabel14"); // NOI18N
-        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 75, -1, -1));
 
         jLabel15.setText(resourceMap.getString("jLabel15.text")); // NOI18N
         jLabel15.setName("jLabel15"); // NOI18N
-        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 101, -1, -1));
 
         jLabel16.setText(resourceMap.getString("jLabel16.text")); // NOI18N
         jLabel16.setName("jLabel16"); // NOI18N
-        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 127, -1, -1));
 
         jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
         jLabel17.setName("jLabel17"); // NOI18N
-        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(128, 153, -1, -1));
 
         jLabel18.setText(resourceMap.getString("jLabel18.text")); // NOI18N
         jLabel18.setName("jLabel18"); // NOI18N
-        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 176, -1, -1));
+
+        payArea.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        payArea.setText(resourceMap.getString("payArea.text")); // NOI18N
+        payArea.setName("payArea"); // NOI18N
+
+        lblFirstName.setForeground(resourceMap.getColor("lblFirstName.foreground")); // NOI18N
+        lblFirstName.setText(resourceMap.getString("lblFirstName.text")); // NOI18N
+        lblFirstName.setName("lblFirstName"); // NOI18N
+
+        lblLastName.setForeground(resourceMap.getColor("lblLastName.foreground")); // NOI18N
+        lblLastName.setText(resourceMap.getString("lblLastName.text")); // NOI18N
+        lblLastName.setName("lblLastName"); // NOI18N
+
+        lblPostAddress.setForeground(resourceMap.getColor("lblPostAddress.foreground")); // NOI18N
+        lblPostAddress.setText(resourceMap.getString("lblPostAddress.text")); // NOI18N
+        lblPostAddress.setName("lblPostAddress"); // NOI18N
+
+        lblPostCode.setForeground(resourceMap.getColor("lblPostCode.foreground")); // NOI18N
+        lblPostCode.setText(resourceMap.getString("lblPostCode.text")); // NOI18N
+        lblPostCode.setName("lblPostCode"); // NOI18N
+
+        lblPostCity.setForeground(resourceMap.getColor("lblPostCity.foreground")); // NOI18N
+        lblPostCity.setText(resourceMap.getString("lblPostCity.text")); // NOI18N
+        lblPostCity.setName("lblPostCity"); // NOI18N
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(jLabel12))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(jLabel13)
+                        .addGap(10, 10, 10)
+                        .addComponent(payName, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel14)
+                        .addGap(10, 10, 10)
+                        .addComponent(paySurname, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jLabel15)
+                        .addGap(10, 10, 10)
+                        .addComponent(payAdress, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(payArea))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(jLabel17)
+                        .addGap(10, 10, 10)
+                        .addComponent(payCity, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jLabel18)
+                        .addGap(10, 10, 10)
+                        .addComponent(payPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFirstName)
+                    .addComponent(lblLastName)
+                    .addComponent(lblPostAddress)
+                    .addComponent(lblPostCode)
+                    .addComponent(lblPostCity))
+                .addContainerGap(74, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jLabel12)
+                .addGap(11, 11, 11)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(payName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFirstName)))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel14))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(paySurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblLastName)))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel15))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(payAdress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblPostAddress)))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(payArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPostCode))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel17))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(payCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblPostCity)))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18)
+                    .addComponent(payPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         panelCheckout2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 52, -1, -1));
 
@@ -972,12 +1099,8 @@ public class IMatView extends FrameView implements IView {
         jLabel21.setText(resourceMap.getString("jLabel21.text")); // NOI18N
         jLabel21.setName("jLabel21"); // NOI18N
 
-        payCard.setName("payCard"); // NOI18N
-
         jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
         jLabel22.setName("jLabel22"); // NOI18N
-
-        payCvc.setName("payCvc"); // NOI18N
 
         jLabel23.setText(resourceMap.getString("jLabel23.text")); // NOI18N
         jLabel23.setName("jLabel23"); // NOI18N
@@ -997,6 +1120,59 @@ public class IMatView extends FrameView implements IView {
         jLabel30.setText(resourceMap.getString("jLabel30.text")); // NOI18N
         jLabel30.setName("jLabel30"); // NOI18N
 
+        payCard1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        payCard1.setText(resourceMap.getString("payCard1.text")); // NOI18N
+        payCard1.setName("payCard1"); // NOI18N
+        payCard1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                payCard1KeyTyped(evt);
+            }
+        });
+
+        payCard2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        payCard2.setName("payCard2"); // NOI18N
+        payCard2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                payCard2KeyTyped(evt);
+            }
+        });
+
+        payCard3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        payCard3.setName("payCard3"); // NOI18N
+        payCard3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                payCard3KeyTyped(evt);
+            }
+        });
+
+        payCard4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        payCard4.setName("payCard4"); // NOI18N
+        payCard4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                payCard4KeyTyped(evt);
+            }
+        });
+
+        payCvc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        payCvc.setName("payCvc"); // NOI18N
+        payCvc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                payCvcKeyTyped(evt);
+            }
+        });
+
+        lblCardHolder.setForeground(resourceMap.getColor("lblCardHolder.foreground")); // NOI18N
+        lblCardHolder.setText(resourceMap.getString("lblCardHolder.text")); // NOI18N
+        lblCardHolder.setName("lblCardHolder"); // NOI18N
+
+        lblCardNbr.setForeground(resourceMap.getColor("lblCardNbr.foreground")); // NOI18N
+        lblCardNbr.setText(resourceMap.getString("lblCardNbr.text")); // NOI18N
+        lblCardNbr.setName("lblCardNbr"); // NOI18N
+
+        lblCvc.setForeground(resourceMap.getColor("lblCvc.foreground")); // NOI18N
+        lblCvc.setText(resourceMap.getString("lblCvc.text")); // NOI18N
+        lblCvc.setName("lblCvc"); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -1010,7 +1186,13 @@ public class IMatView extends FrameView implements IView {
                         .addGap(104, 104, 104)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(payCard, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
+                        .addComponent(payCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(payCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(payCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(payCard4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1024,7 +1206,10 @@ public class IMatView extends FrameView implements IView {
                                 .addComponent(jLabel24)
                                 .addGap(4, 4, 4)
                                 .addComponent(payExpireYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(payCvc, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(payCvc, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblCvc))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1032,9 +1217,13 @@ public class IMatView extends FrameView implements IView {
                             .addComponent(jLabel30))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(payCardType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(payCardholder, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(179, Short.MAX_VALUE))
+                            .addComponent(payCardholder, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                            .addComponent(payCardType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCardHolder)
+                    .addComponent(lblCardNbr))
+                .addGap(112, 112, 112))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1048,15 +1237,21 @@ public class IMatView extends FrameView implements IView {
                 .addGap(5, 5, 5)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(payCardholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel20)
+                    .addComponent(lblCardHolder))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(payCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21))
+                    .addComponent(jLabel21)
+                    .addComponent(payCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payCard4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCardNbr))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(payCvc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
+                    .addComponent(jLabel22)
+                    .addComponent(payCvc, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCvc))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
@@ -1099,6 +1294,11 @@ public class IMatView extends FrameView implements IView {
         payAccept.setText(resourceMap.getString("payAccept.text")); // NOI18N
         payAccept.setName("payAccept"); // NOI18N
         panelCheckout2.add(payAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(557, 330, -1, -1));
+
+        lblPayAccept.setForeground(resourceMap.getColor("lblPayAccept.foreground")); // NOI18N
+        lblPayAccept.setText(resourceMap.getString("lblPayAccept.text")); // NOI18N
+        lblPayAccept.setName("lblPayAccept"); // NOI18N
+        panelCheckout2.add(lblPayAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 350, -1, -1));
 
         mainBot.add(panelCheckout2, "card5");
 
@@ -1149,7 +1349,7 @@ public class IMatView extends FrameView implements IView {
         panelCheckout3Layout.setHorizontalGroup(
             panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCheckout3Layout.createSequentialGroup()
-                .addContainerGap(470, Short.MAX_VALUE)
+                .addContainerGap(1871, Short.MAX_VALUE)
                 .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout3Layout.createSequentialGroup()
                         .addGroup(panelCheckout3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1205,13 +1405,14 @@ private void startPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_startPaymentActionPerformed
 
 private void btnFinishBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishBuyActionPerformed
-    
+  
     /*
     Order order = new Order();
     order.setItems( IMatDataHandler.getInstance().getShoppingCart().getItems() );
     order.setDate( new Date() );
     order.setOrderNumber( 1 );
      */
+    boolean noProblems = true;
     
     CardType cardType = CardType.NoChosen;
     
@@ -1220,7 +1421,101 @@ private void btnFinishBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     else if( ((String)payCardType.getSelectedItem()).equals("VISA") )
         cardType = CardType.VISA;
     
-    PaymentInfo pInfo = new PaymentInfo(
+    PaymentInfo pInfo = new PaymentInfo();
+    if (payName.getText().length() >= 2)
+    {
+        pInfo.setFirstName(payName.getText());
+        lblFirstName.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblFirstName.setVisible(true);
+    }
+    
+    if (paySurname.getText().length() >= 2)
+    {
+        pInfo.setLastName(paySurname.getText());
+        lblLastName.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblLastName.setVisible(true);
+    }
+    
+    if (payAdress.getText().length() >= 2)
+    {
+        pInfo.setPostAddress(payAdress.getText());
+        lblPostAddress.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblPostAddress.setVisible(true);
+    }
+    
+    if (payCity.getText().length() >= 2)
+    {
+        pInfo.setPostCity(payCity.getText());
+        lblPostCity.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblPostCity.setVisible(true);
+    }
+    
+    if (payArea.getText().length() >= 2)
+    {
+        pInfo.setPostCode(payArea.getText());
+        lblPostCode.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblPostCode.setVisible(true);
+    }
+    
+    pInfo.setCardType(cardType);
+    String cardNbr = payCard1.getText()+payCard2.getText()+payCard3.getText()+payCard4.getText();
+    System.out.println(cardNbr.length());
+    if (cardNbr.length() == 16)
+    {
+        pInfo.setCardNumber(cardNbr);
+        lblCardNbr.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblCardNbr.setVisible(true);
+    }
+    
+    if (payCardholder.getText().length() >= 2)
+    {
+        pInfo.setCardHoldersName(payCardholder.getText());
+        lblCardHolder.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblCardHolder.setVisible(true);
+    }
+    
+    if (payCvc.getText().length() == 3)
+    {
+        pInfo.setVerificationCode(payCvc.getText());
+        lblCvc.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblCvc.setVisible(true);
+    }
+    
+    pInfo.setValidMonth(Integer.parseInt( (String)payExpireMonth.getSelectedItem() ));
+    pInfo.setValidYear(Integer.parseInt((String)payExpireYear.getSelectedItem()));
+            /*
                 payName.getText(),
                 paySurname.getText(),
                 payAdress.getText(),
@@ -1232,11 +1527,24 @@ private void btnFinishBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 payCardholder.getText(),
                 Integer.parseInt( payCvc.getText() ),
                 Integer.parseInt( (String)payExpireMonth.getSelectedItem() ),
-                Integer.parseInt( (String)payExpireYear.getSelectedItem()) );
+                Integer.parseInt( (String)payExpireYear.getSelectedItem()) );*/
     
     //controller.finishPayment()
+    if (payAccept.isSelected())
+    {
+        lblPayAccept.setVisible(false);
+    }
+    else
+    {
+        noProblems = false;
+        lblPayAccept.setVisible(true);
+    }
     
-    showFinishedPaymentPage( IMatDataHandler.getInstance().placeOrder() );
+    if (noProblems)
+    {
+        controller.finishPayment(pInfo);
+        //showFinishedPaymentPage( IMatDataHandler.getInstance().placeOrder() );
+    }
 }//GEN-LAST:event_btnFinishBuyActionPerformed
 
 private void btnGoHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeActionPerformed
@@ -1369,6 +1677,46 @@ private void oldCartsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
     
 }//GEN-LAST:event_oldCartsMouseClicked
 
+    private void payCard1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_payCard1KeyTyped
+        if (payCard1.getText().length() > 2)
+        {
+            payCard1.setText(payCard1.getText().substring(0, 3));
+            payCard2.grabFocus();
+        }
+    }//GEN-LAST:event_payCard1KeyTyped
+
+    private void payCard2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_payCard2KeyTyped
+        if (payCard2.getText().length() > 2)
+        {
+            payCard2.setText(payCard2.getText().substring(0, 3));
+            payCard3.grabFocus();
+        }
+    }//GEN-LAST:event_payCard2KeyTyped
+
+    private void payCard3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_payCard3KeyTyped
+        if (payCard3.getText().length() > 2)
+        {
+            payCard3.setText(payCard3.getText().substring(0, 3));
+            payCard4.grabFocus();
+        }
+    }//GEN-LAST:event_payCard3KeyTyped
+
+    private void payCard4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_payCard4KeyTyped
+        if (payCard4.getText().length() > 2)
+        {
+            payCard4.setText(payCard4.getText().substring(0, 3));
+            payCvc.grabFocus();
+        }
+    }//GEN-LAST:event_payCard4KeyTyped
+
+    private void payCvcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_payCvcKeyTyped
+        if (payCvc.getText().length() > 1)
+        {
+            payCvc.setText(payCvc.getText().substring(0, 2));
+            // TODO CVC drop focus
+        }
+    }//GEN-LAST:event_payCvcKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addFavCart;
     private javax.swing.JButton btnAddToCart;
@@ -1444,6 +1792,15 @@ private void oldCartsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     private javax.swing.JTable kundvagn;
+    private javax.swing.JLabel lblCardHolder;
+    private javax.swing.JLabel lblCardNbr;
+    private javax.swing.JLabel lblCvc;
+    private javax.swing.JLabel lblFirstName;
+    private javax.swing.JLabel lblLastName;
+    private javax.swing.JLabel lblPayAccept;
+    private javax.swing.JLabel lblPostAddress;
+    private javax.swing.JLabel lblPostCity;
+    private javax.swing.JLabel lblPostCode;
     private javax.swing.JLabel loginMsg;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JLabel logoTop;
@@ -1464,16 +1821,19 @@ private void oldCartsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
     private javax.swing.JPasswordField passChk;
     private javax.swing.JCheckBox payAccept;
     private javax.swing.JTextField payAdress;
-    private javax.swing.JTextField payArea;
-    private javax.swing.JTextField payCard;
+    private javax.swing.JFormattedTextField payArea;
+    private javax.swing.JFormattedTextField payCard1;
+    private javax.swing.JFormattedTextField payCard2;
+    private javax.swing.JFormattedTextField payCard3;
+    private javax.swing.JFormattedTextField payCard4;
     private javax.swing.JComboBox payCardType;
     private javax.swing.JTextField payCardholder;
-    private javax.swing.JTextField payCvc;
+    private javax.swing.JTextField payCity;
+    private javax.swing.JFormattedTextField payCvc;
     private javax.swing.JComboBox payExpireMonth;
     private javax.swing.JComboBox payExpireYear;
     private javax.swing.JTextField payName;
     private javax.swing.JTextField payPhone;
-    private javax.swing.JTextField payPostal;
     private javax.swing.JTextField paySurname;
     private imat.productWindow productWindow;
     private imat.productWindow productWindow1;
@@ -1647,6 +2007,18 @@ private void oldCartsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
         panelCheckout1.setVisible(false);
         panelCheckout2.setVisible(true);
         panelCheckout3.setVisible(false);
+        
+        payName.setText(paymentInfo.getFirstName());
+        paySurname.setText(paymentInfo.getLastName());
+        payAdress.setText(paymentInfo.getPostAddress());
+        payArea.setText(paymentInfo.getPostCode());
+        payCity.setText(paymentInfo.getPostCity());
+        payCardholder.setText(paymentInfo.getCardHoldersName());
+        payCard1.setText(paymentInfo.getCardNumber().substring(0, 4));
+        payCard2.setText(paymentInfo.getCardNumber().substring(4, 8));
+        payCard3.setText(paymentInfo.getCardNumber().substring(8, 12));
+        payCard4.setText(paymentInfo.getCardNumber().substring(12, 16));
+        
     }
 
     public void showRegisterPage() {
