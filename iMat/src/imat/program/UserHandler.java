@@ -137,7 +137,6 @@ public class UserHandler {
 				loggedInUser = user;
                                 System.out.println("User " + username + " logged in successfully!");
                                 // TODO Userhandler should not set the button text unless absolutely necessary...
-                                IMatView.getView().getLoginBtn().setText("Historik");
 				return true; // login has succeeded
 			}
 		}

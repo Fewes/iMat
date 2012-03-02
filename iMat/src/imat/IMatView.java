@@ -11,24 +11,33 @@ import imat.program.IMatUser;
 import imat.program.IView;
 import imat.program.NamedOrder;
 import imat.program.PaymentInfo;
+import imat.program.PaymentInfo.CardType;
 import imat.program.UserHandler;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 import java.util.Iterator;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.table.DefaultTableModel;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
+import se.chalmers.ait.dat215.project.ShoppingCart;
 import se.chalmers.ait.dat215.project.ShoppingCartListener;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
@@ -65,7 +74,6 @@ public class IMatView extends FrameView implements IView {
             while( it.hasNext() )
             {
                 ShoppingItem i = (ShoppingItem) it.next();
-                //kundvagn.add
                 
                 dm.addRow( new Object[]{
                     i.getProduct().getName(),
@@ -128,79 +136,82 @@ public class IMatView extends FrameView implements IView {
         mainPanel = new javax.swing.JPanel();
         mainTop = new javax.swing.JPanel();
         logoTop = new javax.swing.JLabel();
-        topMid = new javax.swing.JPanel();
-        btnLogin = new javax.swing.JButton();
-        btnButik = new javax.swing.JButton();
-        btnBuy = new javax.swing.JButton();
+        btnButik = new javax.swing.JLabel();
+        btnHistorik = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JLabel();
         mainBot = new javax.swing.JPanel();
         panelButik = new javax.swing.JPanel();
         butikLeft = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         fieldSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
+        jLabel29 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         butikRight = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         kundvagn = new javax.swing.JTable();
-        btnEmptyBasket = new javax.swing.JButton();
+        btnEmptyBasket = new javax.swing.JLabel();
+        btnEmptyBasket1 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
         butikMid = new javax.swing.JPanel();
         midButik = new javax.swing.JPanel();
         butikSwitcher = new javax.swing.JLayeredPane();
         butikList = new javax.swing.JScrollPane();
         productWindow = new imat.productWindow();
+        btnKassan = new javax.swing.JLabel();
         midLogin = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         usrName = new javax.swing.JTextField();
-        pswd = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnRegister = new javax.swing.JButton();
         btnLoginCall = new javax.swing.JButton();
+        pswd = new javax.swing.JPasswordField();
         midRegister = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         surName = new javax.swing.JTextField();
         name = new javax.swing.JTextField();
         userName = new javax.swing.JTextField();
-        pass = new javax.swing.JTextField();
-        passChk = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        passChk = new javax.swing.JPasswordField();
+        pass = new javax.swing.JPasswordField();
         midHistorik = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listOldCarts = new javax.swing.JList();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listFavCarts = new javax.swing.JList();
-        btnAddFavCart = new javax.swing.JButton();
-        btnRemoveFavCart = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblFavCart = new javax.swing.JTable();
         btnAddToCart = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         fieldFavCartName = new javax.swing.JTextField();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        favCarts = new javax.swing.JList();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        oldCarts = new javax.swing.JList();
+        addFavCart = new javax.swing.JLabel();
+        removeFavCart = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
         panelCheckout1 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         checkout1Cart = new javax.swing.JTable();
-        btnPay2 = new javax.swing.JButton();
+        startPayment = new javax.swing.JButton();
         checkoutProduct = new imat.productWindow();
         panelCheckout2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
+        payName = new javax.swing.JTextField();
+        paySurname = new javax.swing.JTextField();
+        payAdress = new javax.swing.JTextField();
+        payPostal = new javax.swing.JTextField();
+        payArea = new javax.swing.JTextField();
+        payPhone = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -210,29 +221,29 @@ public class IMatView extends FrameView implements IView {
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
+        payCardholder = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField18 = new javax.swing.JTextField();
-        jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
+        payCard = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jTextField21 = new javax.swing.JTextField();
+        payCvc = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        payExpireMonth = new javax.swing.JComboBox();
         jLabel24 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        payExpireYear = new javax.swing.JComboBox();
+        payCardType = new javax.swing.JComboBox();
+        jLabel30 = new javax.swing.JLabel();
         btnFinishBuy = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        payAccept = new javax.swing.JCheckBox();
         panelCheckout3 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         checkout3Cart = new javax.swing.JTable();
         btnGoHome = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         productWindow1 = new imat.productWindow();
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(imat.IMatApp.class).getContext().getResourceMap(IMatView.class);
@@ -242,85 +253,43 @@ public class IMatView extends FrameView implements IView {
 
         mainTop.setBackground(resourceMap.getColor("mainTop.background")); // NOI18N
         mainTop.setName("mainTop"); // NOI18N
+        mainTop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logoTop.setIcon(resourceMap.getIcon("logoTop.icon")); // NOI18N
         logoTop.setText(resourceMap.getString("logoTop.text")); // NOI18N
         logoTop.setName("logoTop"); // NOI18N
+        mainTop.add(logoTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
-        topMid.setBackground(resourceMap.getColor("topMid.background")); // NOI18N
-        topMid.setName("topMid"); // NOI18N
-
-        btnLogin.setBackground(resourceMap.getColor("btnLogin.background")); // NOI18N
-        btnLogin.setText(resourceMap.getString("btnLogin.text")); // NOI18N
-        btnLogin.setName("btnLogin"); // NOI18N
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-
-        btnButik.setBackground(resourceMap.getColor("btnButik.background")); // NOI18N
-        btnButik.setText(resourceMap.getString("btnButik.text")); // NOI18N
+        btnButik.setIcon(resourceMap.getIcon("btnButik.icon")); // NOI18N
         btnButik.setName("btnButik"); // NOI18N
-        btnButik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnButikActionPerformed(evt);
+        btnButik.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnButikMouseClicked(evt);
             }
         });
+        mainTop.add(btnButik, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, -1, -1));
 
-        javax.swing.GroupLayout topMidLayout = new javax.swing.GroupLayout(topMid);
-        topMid.setLayout(topMidLayout);
-        topMidLayout.setHorizontalGroup(
-            topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topMidLayout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(282, 282, 282))
-        );
-        topMidLayout.setVerticalGroup(
-            topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topMidLayout.createSequentialGroup()
-                .addContainerGap(81, Short.MAX_VALUE)
-                .addGroup(topMidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnButik, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        btnBuy.setIcon(resourceMap.getIcon("btnBuy.icon")); // NOI18N
-        btnBuy.setText(resourceMap.getString("btnBuy.text")); // NOI18N
-        btnBuy.setName("btnBuy"); // NOI18N
-        btnBuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuyActionPerformed(evt);
+        btnHistorik.setIcon(resourceMap.getIcon("btnHistorik.icon")); // NOI18N
+        btnHistorik.setText(resourceMap.getString("btnHistorik.text")); // NOI18N
+        btnHistorik.setName("btnHistorik"); // NOI18N
+        btnHistorik.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHistorikMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnHistorikMouseEntered(evt);
             }
         });
+        mainTop.add(btnHistorik, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 270, -1));
 
-        javax.swing.GroupLayout mainTopLayout = new javax.swing.GroupLayout(mainTop);
-        mainTop.setLayout(mainTopLayout);
-        mainTopLayout.setHorizontalGroup(
-            mainTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainTopLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(logoTop)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(topMid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134))
-        );
-        mainTopLayout.setVerticalGroup(
-            mainTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(topMid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainTopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(logoTop))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainTopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBuy, 0, 0, Short.MAX_VALUE))
-        );
+        btnLogin.setIcon(resourceMap.getIcon("btnLogin.icon")); // NOI18N
+        btnLogin.setName("btnLogin"); // NOI18N
+        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLoginMouseClicked(evt);
+            }
+        });
+        mainTop.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(706, 10, 270, -1));
 
         mainPanel.add(mainTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -329,46 +298,34 @@ public class IMatView extends FrameView implements IView {
 
         panelButik.setBackground(resourceMap.getColor("panelButik.background")); // NOI18N
         panelButik.setName("panelButik"); // NOI18N
+        panelButik.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         butikLeft.setBackground(resourceMap.getColor("butikLeft.background")); // NOI18N
         butikLeft.setName("butikLeft"); // NOI18N
+        butikLeft.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(resourceMap.getColor("jPanel4.background")); // NOI18N
         jPanel4.setName("jPanel4"); // NOI18N
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         fieldSearch.setName("fieldSearch"); // NOI18N
+        jPanel4.add(fieldSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 180, -1));
 
-        btnSearch.setText(resourceMap.getString("btnSearch.text")); // NOI18N
-        btnSearch.setName("btnSearch"); // NOI18N
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+        jLabel29.setIcon(resourceMap.getIcon("jLabel29.icon")); // NOI18N
+        jLabel29.setText(resourceMap.getString("jLabel29.text")); // NOI18N
+        jLabel29.setName("jLabel29"); // NOI18N
+        jLabel29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel29MouseClicked(evt);
             }
         });
+        jPanel4.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fieldSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                    .addComponent(btnSearch))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(fieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSearch)
-                .addContainerGap())
-        );
+        butikLeft.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 197, -1));
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
+        jTree1.setFont(resourceMap.getFont("jTree1.font")); // NOI18N
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Kategorier");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Favoriter");
         treeNode1.add(treeNode2);
@@ -443,34 +400,17 @@ public class IMatView extends FrameView implements IView {
         jTree1.setRootVisible(false);
         jTree1.setToggleClickCount(1);
 
-        javax.swing.GroupLayout butikLeftLayout = new javax.swing.GroupLayout(butikLeft);
-        butikLeft.setLayout(butikLeftLayout);
-        butikLeftLayout.setHorizontalGroup(
-            butikLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(butikLeftLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        butikLeftLayout.setVerticalGroup(
-            butikLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(butikLeftLayout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        butikLeft.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, 180, 445));
+
+        panelButik.add(butikLeft, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, -1));
 
         butikRight.setBackground(resourceMap.getColor("butikRight.background")); // NOI18N
         butikRight.setName("butikRight"); // NOI18N
-
-        jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
-        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
-        jLabel1.setName("jLabel1"); // NOI18N
+        butikRight.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
+        kundvagn.setFont(resourceMap.getFont("kundvagn.font")); // NOI18N
         kundvagn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -487,8 +427,10 @@ public class IMatView extends FrameView implements IView {
                 return canEdit [columnIndex];
             }
         });
+        kundvagn.setColumnSelectionAllowed(true);
         kundvagn.setName("kundvagn"); // NOI18N
         jScrollPane2.setViewportView(kundvagn);
+        kundvagn.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         kundvagn.getColumnModel().getColumn(0).setResizable(false);
         kundvagn.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("kundvagn.columnModel.title0")); // NOI18N
         kundvagn.getColumnModel().getColumn(1).setResizable(false);
@@ -496,90 +438,81 @@ public class IMatView extends FrameView implements IView {
         kundvagn.getColumnModel().getColumn(2).setResizable(false);
         kundvagn.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("kundvagn.columnModel.title2")); // NOI18N
 
+        butikRight.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -2, 280, 420));
+
+        btnEmptyBasket.setIcon(resourceMap.getIcon("btnEmptyBasket.icon")); // NOI18N
         btnEmptyBasket.setText(resourceMap.getString("btnEmptyBasket.text")); // NOI18N
         btnEmptyBasket.setName("btnEmptyBasket"); // NOI18N
-        btnEmptyBasket.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEmptyBasketActionPerformed(evt);
+        btnEmptyBasket.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEmptyBasketMouseClicked(evt);
             }
         });
+        butikRight.add(btnEmptyBasket, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, -1, -1));
 
-        javax.swing.GroupLayout butikRightLayout = new javax.swing.GroupLayout(butikRight);
-        butikRight.setLayout(butikRightLayout);
-        butikRightLayout.setHorizontalGroup(
-            butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(butikRightLayout.createSequentialGroup()
-                .addGroup(butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(butikRightLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEmptyBasket, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)))
-                    .addGroup(butikRightLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(jLabel1)))
-                .addContainerGap())
-        );
-        butikRightLayout.setVerticalGroup(
-            butikRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(butikRightLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEmptyBasket)
-                .addContainerGap())
-        );
+        btnEmptyBasket1.setName("btnEmptyBasket1"); // NOI18N
+        btnEmptyBasket1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEmptyBasket1MouseClicked(evt);
+            }
+        });
+        butikRight.add(btnEmptyBasket1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
+
+        jLabel26.setIcon(resourceMap.getIcon("jLabel26.icon")); // NOI18N
+        jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
+        jLabel26.setName("jLabel26"); // NOI18N
+        jLabel26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel26MouseClicked(evt);
+            }
+        });
+        butikRight.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, -1, -1));
+
+        panelButik.add(butikRight, new org.netbeans.lib.awtextra.AbsoluteConstraints(971, 11, 310, 510));
 
         butikMid.setName("butikMid"); // NOI18N
         butikMid.setLayout(new java.awt.CardLayout());
 
         midButik.setBackground(resourceMap.getColor("midButik.background")); // NOI18N
+        midButik.setMaximumSize(new java.awt.Dimension(778, 522));
         midButik.setName("midButik"); // NOI18N
+        midButik.setRequestFocusEnabled(false);
+        midButik.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         butikSwitcher.setName("butikSwitcher"); // NOI18N
 
+        butikList.setBackground(resourceMap.getColor("butikList.background")); // NOI18N
         butikList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         butikList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         butikList.setName("butikList"); // NOI18N
-        butikList.setBounds(0, 0, 830, 500);
+        butikList.setBounds(0, 0, 760, 510);
         butikSwitcher.add(butikList, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         productWindow.setName("productWindow"); // NOI18N
         productWindow.setBounds(290, 10, 352, 453);
         butikSwitcher.add(productWindow, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout midButikLayout = new javax.swing.GroupLayout(midButik);
-        midButik.setLayout(midButikLayout);
-        midButikLayout.setHorizontalGroup(
-            midButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midButikLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(butikSwitcher, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        midButikLayout.setVerticalGroup(
-            midButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midButikLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(butikSwitcher, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        midButik.add(butikSwitcher, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 768, 510));
+
+        btnKassan.setName("btnKassan"); // NOI18N
+        btnKassan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKassanMouseClicked(evt);
+            }
+        });
+        midButik.add(btnKassan, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 470, -1, -1));
 
         butikMid.add(midButik, "card2");
 
         midLogin.setBackground(resourceMap.getColor("midLogin.background")); // NOI18N
         midLogin.setName("midLogin"); // NOI18N
+        midLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
         jPanel1.setName("jPanel1"); // NOI18N
 
         usrName.setText(resourceMap.getString("usrName.text")); // NOI18N
         usrName.setName("usrName"); // NOI18N
-
-        pswd.setText(resourceMap.getString("pswd.text")); // NOI18N
-        pswd.setName("pswd"); // NOI18N
 
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
@@ -606,6 +539,9 @@ public class IMatView extends FrameView implements IView {
             }
         });
 
+        pswd.setText(resourceMap.getString("pswd.text")); // NOI18N
+        pswd.setName("pswd"); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -621,9 +557,9 @@ public class IMatView extends FrameView implements IView {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pswd, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usrName, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pswd)
+                            .addComponent(usrName, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnLoginCall, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -642,8 +578,8 @@ public class IMatView extends FrameView implements IView {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(pswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegister)
@@ -651,27 +587,13 @@ public class IMatView extends FrameView implements IView {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout midLoginLayout = new javax.swing.GroupLayout(midLogin);
-        midLogin.setLayout(midLoginLayout);
-        midLoginLayout.setHorizontalGroup(
-            midLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midLoginLayout.createSequentialGroup()
-                .addGap(315, 315, 315)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(253, Short.MAX_VALUE))
-        );
-        midLoginLayout.setVerticalGroup(
-            midLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midLoginLayout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(242, Short.MAX_VALUE))
-        );
+        midLogin.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, -1, -1));
 
         butikMid.add(midLogin, "card3");
 
         midRegister.setBackground(resourceMap.getColor("midRegister.background")); // NOI18N
         midRegister.setName("midRegister"); // NOI18N
+        midRegister.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(resourceMap.getColor("jPanel2.background")); // NOI18N
         jPanel2.setName("jPanel2"); // NOI18N
@@ -682,10 +604,6 @@ public class IMatView extends FrameView implements IView {
         name.setName("name"); // NOI18N
 
         userName.setName("userName"); // NOI18N
-
-        pass.setName("pass"); // NOI18N
-
-        passChk.setName("passChk"); // NOI18N
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
@@ -710,107 +628,92 @@ public class IMatView extends FrameView implements IView {
             }
         });
 
+        passChk.setText(resourceMap.getString("passChk.text")); // NOI18N
+        passChk.setName("passChk"); // NOI18N
+
+        pass.setText(resourceMap.getString("pass.text")); // NOI18N
+        pass.setName("pass"); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(jLabel5)
+                .addGap(10, 10, 10)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jLabel6)
+                .addGap(10, 10, 10)
+                .addComponent(surName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(jLabel7)
+                .addGap(10, 10, 10)
+                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(75, 75, 75)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(surName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passChk, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passChk, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(174, 174, 174)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(surName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel5))
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel6))
+                    .addComponent(surName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel7))
+                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel8)
+                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passChk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addGap(38, 38, 38)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(jLabel9)
+                    .addComponent(passChk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        javax.swing.GroupLayout midRegisterLayout = new javax.swing.GroupLayout(midRegister);
-        midRegister.setLayout(midRegisterLayout);
-        midRegisterLayout.setHorizontalGroup(
-            midRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midRegisterLayout.createSequentialGroup()
-                .addGap(248, 248, 248)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(176, Short.MAX_VALUE))
-        );
-        midRegisterLayout.setVerticalGroup(
-            midRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midRegisterLayout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(159, Short.MAX_VALUE))
-        );
+        midRegister.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, -1, -1));
 
         butikMid.add(midRegister, "card4");
 
         midHistorik.setBackground(resourceMap.getColor("midHistorik.background")); // NOI18N
         midHistorik.setName("midHistorik"); // NOI18N
+        midHistorik.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jSeparator1.setName("jSeparator1"); // NOI18N
-
-        jScrollPane3.setName("jScrollPane3"); // NOI18N
-
-        listOldCarts.setName("listOldCarts"); // NOI18N
-        jScrollPane3.setViewportView(listOldCarts);
-
-        jScrollPane4.setName("jScrollPane4"); // NOI18N
-
-        listFavCarts.setName("listFavCarts"); // NOI18N
-        jScrollPane4.setViewportView(listFavCarts);
-
-        btnAddFavCart.setText(resourceMap.getString("btnAddFavCart.text")); // NOI18N
-        btnAddFavCart.setName("btnAddFavCart"); // NOI18N
-
-        btnRemoveFavCart.setText(resourceMap.getString("btnRemoveFavCart.text")); // NOI18N
-        btnRemoveFavCart.setName("btnRemoveFavCart"); // NOI18N
+        midHistorik.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 253, 2560, -1));
 
         jScrollPane5.setName("jScrollPane5"); // NOI18N
 
+        tblFavCart.setFont(resourceMap.getFont("tblFavCart.font")); // NOI18N
         tblFavCart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -836,96 +739,69 @@ public class IMatView extends FrameView implements IView {
         tblFavCart.getColumnModel().getColumn(2).setResizable(false);
         tblFavCart.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblFavCart.columnModel.title2")); // NOI18N
 
+        midHistorik.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 304, 370, 207));
+
+        btnAddToCart.setFont(resourceMap.getFont("btnAddToCart.font")); // NOI18N
         btnAddToCart.setText(resourceMap.getString("btnAddToCart.text")); // NOI18N
         btnAddToCart.setName("btnAddToCart"); // NOI18N
+        midHistorik.add(btnAddToCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 420, 157, 33));
 
+        jLabel10.setFont(resourceMap.getFont("jLabel10.font")); // NOI18N
         jLabel10.setText(resourceMap.getString("jLabel10.text")); // NOI18N
         jLabel10.setName("jLabel10"); // NOI18N
+        midHistorik.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 265, -1, 30));
 
         fieldFavCartName.setText(resourceMap.getString("fieldFavCartName.text")); // NOI18N
         fieldFavCartName.setName("fieldFavCartName"); // NOI18N
+        midHistorik.add(fieldFavCartName, new org.netbeans.lib.awtextra.AbsoluteConstraints(189, 273, 220, -1));
 
-        javax.swing.GroupLayout midHistorikLayout = new javax.swing.GroupLayout(midHistorik);
-        midHistorik.setLayout(midHistorikLayout);
-        midHistorikLayout.setHorizontalGroup(
-            midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midHistorikLayout.createSequentialGroup()
-                .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(midHistorikLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midHistorikLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnRemoveFavCart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnAddFavCart, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)))
-                    .addGroup(midHistorikLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(midHistorikLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fieldFavCartName))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
-                        .addComponent(btnAddToCart, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        midHistorikLayout.setVerticalGroup(
-            midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(midHistorikLayout.createSequentialGroup()
-                .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(midHistorikLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, midHistorikLayout.createSequentialGroup()
-                        .addContainerGap(117, Short.MAX_VALUE)
-                        .addComponent(btnAddFavCart)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRemoveFavCart)
-                        .addGap(72, 72, 72)))
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(midHistorikLayout.createSequentialGroup()
-                        .addGroup(midHistorikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(fieldFavCartName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
-                    .addComponent(btnAddToCart, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        jScrollPane9.setName("jScrollPane9"); // NOI18N
+
+        favCarts.setName("favCarts"); // NOI18N
+        jScrollPane9.setViewportView(favCarts);
+
+        midHistorik.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, 300, 150));
+
+        jScrollPane10.setName("jScrollPane10"); // NOI18N
+
+        oldCarts.setName("oldCarts"); // NOI18N
+        jScrollPane10.setViewportView(oldCarts);
+
+        midHistorik.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 310, 150));
+
+        addFavCart.setIcon(resourceMap.getIcon("addFavCart.icon")); // NOI18N
+        addFavCart.setText(resourceMap.getString("addFavCart.text")); // NOI18N
+        addFavCart.setName("addFavCart"); // NOI18N
+        addFavCart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addFavCartMouseClicked(evt);
+            }
+        });
+        midHistorik.add(addFavCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 110, -1, -1));
+
+        removeFavCart.setIcon(resourceMap.getIcon("removeFavCart.icon")); // NOI18N
+        removeFavCart.setText(resourceMap.getString("removeFavCart.text")); // NOI18N
+        removeFavCart.setName("removeFavCart"); // NOI18N
+        removeFavCart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeFavCartMouseClicked(evt);
+            }
+        });
+        midHistorik.add(removeFavCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 120, -1));
+
+        jLabel32.setFont(resourceMap.getFont("jLabel32.font")); // NOI18N
+        jLabel32.setText(resourceMap.getString("jLabel32.text")); // NOI18N
+        jLabel32.setName("jLabel32"); // NOI18N
+        midHistorik.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+
+        jLabel33.setFont(resourceMap.getFont("jLabel33.font")); // NOI18N
+        jLabel33.setText(resourceMap.getString("jLabel33.text")); // NOI18N
+        jLabel33.setName("jLabel33"); // NOI18N
+        midHistorik.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, -1, -1));
 
         butikMid.add(midHistorik, "card5");
 
-        javax.swing.GroupLayout panelButikLayout = new javax.swing.GroupLayout(panelButik);
-        panelButik.setLayout(panelButikLayout);
-        panelButikLayout.setHorizontalGroup(
-            panelButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButikLayout.createSequentialGroup()
-                .addComponent(butikLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butikRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(127, 127, 127))
-        );
-        panelButikLayout.setVerticalGroup(
-            panelButikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(butikMid, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-            .addComponent(butikLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButikLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(butikRight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        panelButik.add(butikMid, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
 
         mainBot.add(panelButik, "card2");
 
@@ -955,6 +831,7 @@ public class IMatView extends FrameView implements IView {
                 return canEdit [columnIndex];
             }
         });
+        checkout1Cart.setColumnSelectionAllowed(true);
         checkout1Cart.setName("checkout1Cart"); // NOI18N
         checkout1Cart.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -962,6 +839,7 @@ public class IMatView extends FrameView implements IView {
             }
         });
         jScrollPane7.setViewportView(checkout1Cart);
+        checkout1Cart.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         checkout1Cart.getColumnModel().getColumn(0).setResizable(false);
         checkout1Cart.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("checkout1Cart.columnModel.title0")); // NOI18N
         checkout1Cart.getColumnModel().getColumn(1).setResizable(false);
@@ -971,15 +849,15 @@ public class IMatView extends FrameView implements IView {
 
         panelCheckout1.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, -1, 397));
 
-        btnPay2.setFont(resourceMap.getFont("btnPay2.font")); // NOI18N
-        btnPay2.setText(resourceMap.getString("btnPay2.text")); // NOI18N
-        btnPay2.setName("btnPay2"); // NOI18N
-        btnPay2.addActionListener(new java.awt.event.ActionListener() {
+        startPayment.setFont(resourceMap.getFont("startPayment.font")); // NOI18N
+        startPayment.setText(resourceMap.getString("startPayment.text")); // NOI18N
+        startPayment.setName("startPayment"); // NOI18N
+        startPayment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPay2ActionPerformed(evt);
+                startPaymentActionPerformed(evt);
             }
         });
-        panelCheckout1.add(btnPay2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 450, 155, 30));
+        panelCheckout1.add(startPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 450, 155, 30));
 
         checkoutProduct.setName("checkoutProduct"); // NOI18N
         panelCheckout1.add(checkoutProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, -1, -1));
@@ -987,6 +865,7 @@ public class IMatView extends FrameView implements IView {
         mainBot.add(panelCheckout1, "card3");
 
         panelCheckout2.setName("panelCheckout2"); // NOI18N
+        panelCheckout2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setName("jPanel3"); // NOI18N
 
@@ -1001,102 +880,60 @@ public class IMatView extends FrameView implements IView {
             .addGap(0, 301, Short.MAX_VALUE)
         );
 
+        panelCheckout2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(901, 52, -1, -1));
+
         jPanel5.setName("jPanel5"); // NOI18N
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setFont(resourceMap.getFont("jLabel12.font")); // NOI18N
         jLabel12.setText(resourceMap.getString("jLabel12.text")); // NOI18N
         jLabel12.setName("jLabel12"); // NOI18N
+        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 11, -1, -1));
 
-        jTextField10.setText(resourceMap.getString("jTextField10.text")); // NOI18N
-        jTextField10.setName("jTextField10"); // NOI18N
+        payName.setText(resourceMap.getString("payName.text")); // NOI18N
+        payName.setName("payName"); // NOI18N
+        jPanel5.add(payName, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 46, 153, -1));
 
-        jTextField11.setName("jTextField11"); // NOI18N
+        paySurname.setName("paySurname"); // NOI18N
+        jPanel5.add(paySurname, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 72, 153, -1));
 
-        jTextField12.setName("jTextField12"); // NOI18N
+        payAdress.setName("payAdress"); // NOI18N
+        jPanel5.add(payAdress, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 98, 153, -1));
 
-        jTextField13.setName("jTextField13"); // NOI18N
+        payPostal.setName("payPostal"); // NOI18N
+        jPanel5.add(payPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 124, 153, -1));
 
-        jTextField14.setName("jTextField14"); // NOI18N
+        payArea.setName("payArea"); // NOI18N
+        jPanel5.add(payArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 150, 153, -1));
 
-        jTextField15.setName("jTextField15"); // NOI18N
+        payPhone.setName("payPhone"); // NOI18N
+        jPanel5.add(payPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 176, 153, -1));
 
         jLabel13.setText(resourceMap.getString("jLabel13.text")); // NOI18N
         jLabel13.setName("jLabel13"); // NOI18N
+        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 49, -1, -1));
 
         jLabel14.setText(resourceMap.getString("jLabel14.text")); // NOI18N
         jLabel14.setName("jLabel14"); // NOI18N
+        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 75, -1, -1));
 
         jLabel15.setText(resourceMap.getString("jLabel15.text")); // NOI18N
         jLabel15.setName("jLabel15"); // NOI18N
+        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 101, -1, -1));
 
         jLabel16.setText(resourceMap.getString("jLabel16.text")); // NOI18N
         jLabel16.setName("jLabel16"); // NOI18N
+        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 127, -1, -1));
 
         jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
         jLabel17.setName("jLabel17"); // NOI18N
+        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(128, 153, -1, -1));
 
         jLabel18.setText(resourceMap.getString("jLabel18.text")); // NOI18N
         jLabel18.setName("jLabel18"); // NOI18N
+        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 176, -1, -1));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(jLabel12))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(211, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18))
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
+        panelCheckout2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 52, -1, -1));
 
         jPanel6.setName("jPanel6"); // NOI18N
 
@@ -1107,35 +944,35 @@ public class IMatView extends FrameView implements IView {
         jLabel20.setText(resourceMap.getString("jLabel20.text")); // NOI18N
         jLabel20.setName("jLabel20"); // NOI18N
 
-        jTextField16.setName("jTextField16"); // NOI18N
+        payCardholder.setName("payCardholder"); // NOI18N
 
         jLabel21.setText(resourceMap.getString("jLabel21.text")); // NOI18N
         jLabel21.setName("jLabel21"); // NOI18N
 
-        jTextField17.setName("jTextField17"); // NOI18N
-
-        jTextField18.setName("jTextField18"); // NOI18N
-
-        jTextField19.setName("jTextField19"); // NOI18N
-
-        jTextField20.setName("jTextField20"); // NOI18N
+        payCard.setName("payCard"); // NOI18N
 
         jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
         jLabel22.setName("jLabel22"); // NOI18N
 
-        jTextField21.setName("jTextField21"); // NOI18N
+        payCvc.setName("payCvc"); // NOI18N
 
         jLabel23.setText(resourceMap.getString("jLabel23.text")); // NOI18N
         jLabel23.setName("jLabel23"); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        jComboBox1.setName("jComboBox1"); // NOI18N
+        payExpireMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        payExpireMonth.setName("payExpireMonth"); // NOI18N
 
         jLabel24.setText(resourceMap.getString("jLabel24.text")); // NOI18N
         jLabel24.setName("jLabel24"); // NOI18N
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
-        jComboBox2.setName("jComboBox2"); // NOI18N
+        payExpireYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        payExpireYear.setName("payExpireYear"); // NOI18N
+
+        payCardType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mastercard", "VISA" }));
+        payCardType.setName("payCardType"); // NOI18N
+
+        jLabel30.setText(resourceMap.getString("jLabel30.text")); // NOI18N
+        jLabel30.setName("jLabel30"); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1144,68 +981,69 @@ public class IMatView extends FrameView implements IView {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(184, 184, 184)
+                        .addGap(180, 180, 180)
                         .addComponent(jLabel19))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabel21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(payCard, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel22))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(payExpireMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel24)
+                                .addGap(4, 4, 4)
+                                .addComponent(payExpireYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(payCvc, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel20)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jLabel21)
-                                    .addComponent(jLabel23))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel24)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(11, 11, 11)))))
-                .addContainerGap(210, Short.MAX_VALUE))
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel30))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(payCardType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(payCardholder, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payCardType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(payCardholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(payCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payCvc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payExpireMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(payExpireYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6))
         );
+
+        panelCheckout2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 510, 190));
 
         btnFinishBuy.setFont(resourceMap.getFont("btnFinishBuy.font")); // NOI18N
         btnFinishBuy.setText(resourceMap.getString("btnFinishBuy.text")); // NOI18N
@@ -1215,70 +1053,29 @@ public class IMatView extends FrameView implements IView {
                 btnFinishBuyActionPerformed(evt);
             }
         });
+        panelCheckout2.add(btnFinishBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(1071, 359, 145, 47));
 
         jScrollPane6.setName("jScrollPane6"); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
         jTextArea1.setFont(resourceMap.getFont("jTextArea1.font")); // NOI18N
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setText(resourceMap.getString("jTextArea1.text")); // NOI18N
         jTextArea1.setName("jTextArea1"); // NOI18N
         jScrollPane6.setViewportView(jTextArea1);
 
+        panelCheckout2.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(557, 103, 338, 220));
+
         jLabel11.setFont(resourceMap.getFont("jLabel11.font")); // NOI18N
         jLabel11.setText(resourceMap.getString("jLabel11.text")); // NOI18N
         jLabel11.setName("jLabel11"); // NOI18N
+        panelCheckout2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(557, 70, -1, -1));
 
-        jCheckBox1.setText(resourceMap.getString("jCheckBox1.text")); // NOI18N
-        jCheckBox1.setName("jCheckBox1"); // NOI18N
-
-        javax.swing.GroupLayout panelCheckout2Layout = new javax.swing.GroupLayout(panelCheckout2);
-        panelCheckout2.setLayout(panelCheckout2Layout);
-        panelCheckout2Layout.setHorizontalGroup(
-            panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout2Layout.createSequentialGroup()
-                        .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCheckout2Layout.createSequentialGroup()
-                        .addComponent(btnFinishBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(143, 143, 143))))
-        );
-        panelCheckout2Layout.setVerticalGroup(
-            panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCheckout2Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelCheckout2Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(32, Short.MAX_VALUE))
-                    .addGroup(panelCheckout2Layout.createSequentialGroup()
-                        .addGroup(panelCheckout2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelCheckout2Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox1))
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                        .addComponent(btnFinishBuy, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))))
-        );
+        payAccept.setText(resourceMap.getString("payAccept.text")); // NOI18N
+        payAccept.setName("payAccept"); // NOI18N
+        panelCheckout2.add(payAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(557, 330, -1, -1));
 
         mainBot.add(panelCheckout2, "card5");
 
@@ -1309,11 +1106,7 @@ public class IMatView extends FrameView implements IView {
         checkout3Cart.setName("checkout3Cart"); // NOI18N
         jScrollPane8.setViewportView(checkout3Cart);
         checkout3Cart.getColumnModel().getColumn(0).setResizable(false);
-        checkout3Cart.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("jTable1.columnModel.title0")); // NOI18N
         checkout3Cart.getColumnModel().getColumn(1).setResizable(false);
-        checkout3Cart.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("jTable1.columnModel.title1")); // NOI18N
-        checkout3Cart.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
-        checkout3Cart.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
 
         btnGoHome.setFont(resourceMap.getFont("btnGoHome.font")); // NOI18N
         btnGoHome.setText(resourceMap.getString("btnGoHome.text")); // NOI18N
@@ -1357,38 +1150,26 @@ public class IMatView extends FrameView implements IView {
                     .addGroup(panelCheckout3Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel27)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(58, 58, 58))
+                .addGap(186, 186, 186))
         );
 
         mainBot.add(panelCheckout3, "card4");
 
-        mainPanel.add(mainBot, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 132, 1359, -1));
+        mainPanel.add(mainBot, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 154, 1359, 550));
+
+        jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+        mainPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 100, 190, -1));
 
         productWindow1.setName("productWindow1"); // NOI18N
 
         setComponent(mainPanel);
     }// </editor-fold>//GEN-END:initComponents
-
-private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
-    if(btnLogin.getText().equals("Logga In"))
-        showLoginPage();
-    else if(btnLogin.getText().equals("Historik")) {
-        showEarlierOrdersPage();
-        
-    }
-    
-}//GEN-LAST:event_btnLoginActionPerformed
-
-private void btnButikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnButikActionPerformed
-    
-    showMainShoppingPage();
-    
-}//GEN-LAST:event_btnButikActionPerformed
 
 private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
     
@@ -1396,31 +1177,48 @@ private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     
 }//GEN-LAST:event_btnRegisterActionPerformed
 
-private void btnEmptyBasketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmptyBasketActionPerformed
-    controller.emptyShoppingCart();
-}//GEN-LAST:event_btnEmptyBasketActionPerformed
-
-private void btnBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuyActionPerformed
-    showCheckoutPage();
-    checkoutProduct.hideFav();
-    checkoutProduct.setBtnText("Uppdatera Kundvagn");
-}//GEN-LAST:event_btnBuyActionPerformed
-
-private void btnPay2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPay2ActionPerformed
-    showPaymentPage(null);
-}//GEN-LAST:event_btnPay2ActionPerformed
+private void startPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startPaymentActionPerformed
+    controller.showPaymentPage();
+}//GEN-LAST:event_startPaymentActionPerformed
 
 private void btnFinishBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishBuyActionPerformed
-    showFinishedPaymentPage(null);
+    
+    /*
+    Order order = new Order();
+    order.setItems( IMatDataHandler.getInstance().getShoppingCart().getItems() );
+    order.setDate( new Date() );
+    order.setOrderNumber( 1 );
+     */
+    
+    CardType cardType = CardType.NoChosen;
+    
+    if( ((String)payCardType.getSelectedItem()).equals("Mastercard") )
+        cardType = CardType.MasterCard;
+    else if( ((String)payCardType.getSelectedItem()).equals("VISA") )
+        cardType = CardType.VISA;
+    
+    PaymentInfo pInfo = new PaymentInfo(
+                payName.getText(),
+                paySurname.getText(),
+                payAdress.getText(),
+                payPostal.getText(),
+                payArea.getText(),
+                payPhone.getText(),
+                cardType,
+                payCard.getText(),
+                payCardholder.getText(),
+                Integer.parseInt( payCvc.getText() ),
+                Integer.parseInt( (String)payExpireMonth.getSelectedItem() ),
+                Integer.parseInt( (String)payExpireYear.getSelectedItem()) );
+    
+    //controller.finishPayment()
+    
+    showFinishedPaymentPage( IMatDataHandler.getInstance().placeOrder() );
 }//GEN-LAST:event_btnFinishBuyActionPerformed
 
 private void btnGoHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoHomeActionPerformed
     showMainShoppingPage();
 }//GEN-LAST:event_btnGoHomeActionPerformed
-
-private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-    controller.searchFor( fieldSearch.getText() );
-}//GEN-LAST:event_btnSearchActionPerformed
 
 private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
     controller.showCategory( CategoryHandler.stringToCategory(  jTree1.getLastSelectedPathComponent().toString()) );
@@ -1432,7 +1230,9 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         System.out.println("Yes hello this is Patrick.");
         if( !UserHandler.getInstance().registerUser(name.getText(), surName.getText(), userName.getText(), pass.getText()) ) {
             //Tell user username already exists
+            return;
         }
+        showMainShoppingPage();
             
     }
 }//GEN-LAST:event_jButton5ActionPerformed
@@ -1454,20 +1254,68 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     
 }//GEN-LAST:event_checkout1CartMouseClicked
 
+private void btnHistorikMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorikMouseClicked
+    showEarlierOrdersPage();
+    setFavoriteCartList(null);
+}//GEN-LAST:event_btnHistorikMouseClicked
+
+private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
+    showLoginPage();
+}//GEN-LAST:event_btnLoginMouseClicked
+
+private void btnButikMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnButikMouseClicked
+    showMainShoppingPage();
+}//GEN-LAST:event_btnButikMouseClicked
+
+private void btnHistorikMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorikMouseEntered
+// TODO add your handling code here:
+}//GEN-LAST:event_btnHistorikMouseEntered
+
+private void btnEmptyBasketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmptyBasketMouseClicked
+    controller.emptyShoppingCart();
+}//GEN-LAST:event_btnEmptyBasketMouseClicked
+
+private void btnKassanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKassanMouseClicked
+    showCheckoutPage();
+    checkoutProduct.hideFav();
+    checkoutProduct.setBtnText("Uppdatera Kundvagn");
+}//GEN-LAST:event_btnKassanMouseClicked
+
+private void btnEmptyBasket1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmptyBasket1MouseClicked
+// TODO add your handling code here:
+}//GEN-LAST:event_btnEmptyBasket1MouseClicked
+
+private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
+    showCheckoutPage();
+    checkoutProduct.hideFav();
+    checkoutProduct.setBtnText("Uppdatera Kundvagn");
+}//GEN-LAST:event_jLabel26MouseClicked
+
+private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
+    controller.searchFor( fieldSearch.getText() );
+}//GEN-LAST:event_jLabel29MouseClicked
+
+private void addFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addFavCartMouseClicked
+// TODO add your handling code here:
+}//GEN-LAST:event_addFavCartMouseClicked
+
+private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeFavCartMouseClicked
+// TODO add your handling code here:
+}//GEN-LAST:event_removeFavCartMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddFavCart;
+    private javax.swing.JLabel addFavCart;
     private javax.swing.JButton btnAddToCart;
-    private javax.swing.JButton btnButik;
-    private javax.swing.JButton btnBuy;
-    private javax.swing.JButton btnEmptyBasket;
+    private javax.swing.JLabel btnButik;
+    private javax.swing.JLabel btnEmptyBasket;
+    private javax.swing.JLabel btnEmptyBasket1;
     private javax.swing.JButton btnFinishBuy;
     private javax.swing.JButton btnGoHome;
-    private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel btnHistorik;
+    private javax.swing.JLabel btnKassan;
+    private javax.swing.JLabel btnLogin;
     private javax.swing.JButton btnLoginCall;
-    private javax.swing.JButton btnPay2;
     private javax.swing.JButton btnRegister;
-    private javax.swing.JButton btnRemoveFavCart;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JPanel butikLeft;
     private javax.swing.JScrollPane butikList;
     private javax.swing.JPanel butikMid;
@@ -1476,12 +1324,10 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JTable checkout1Cart;
     private javax.swing.JTable checkout3Cart;
     private imat.productWindow checkoutProduct;
+    private javax.swing.JList favCarts;
     private javax.swing.JTextField fieldFavCartName;
     private javax.swing.JTextField fieldSearch;
     private javax.swing.JButton jButton5;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1500,9 +1346,14 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1516,31 +1367,17 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
     private javax.swing.JTree jTree1;
     private javax.swing.JTable kundvagn;
-    private javax.swing.JList listFavCarts;
-    private javax.swing.JList listOldCarts;
     private javax.swing.JLabel logoTop;
     private javax.swing.JPanel mainBot;
     private javax.swing.JPanel mainPanel;
@@ -1550,18 +1387,33 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JPanel midLogin;
     private javax.swing.JPanel midRegister;
     private javax.swing.JTextField name;
+    private javax.swing.JList oldCarts;
     private javax.swing.JPanel panelButik;
     private javax.swing.JPanel panelCheckout1;
     private javax.swing.JPanel panelCheckout2;
     private javax.swing.JPanel panelCheckout3;
-    private javax.swing.JTextField pass;
-    private javax.swing.JTextField passChk;
+    private javax.swing.JPasswordField pass;
+    private javax.swing.JPasswordField passChk;
+    private javax.swing.JCheckBox payAccept;
+    private javax.swing.JTextField payAdress;
+    private javax.swing.JTextField payArea;
+    private javax.swing.JTextField payCard;
+    private javax.swing.JComboBox payCardType;
+    private javax.swing.JTextField payCardholder;
+    private javax.swing.JTextField payCvc;
+    private javax.swing.JComboBox payExpireMonth;
+    private javax.swing.JComboBox payExpireYear;
+    private javax.swing.JTextField payName;
+    private javax.swing.JTextField payPhone;
+    private javax.swing.JTextField payPostal;
+    private javax.swing.JTextField paySurname;
     private imat.productWindow productWindow;
     private imat.productWindow productWindow1;
-    private javax.swing.JTextField pswd;
+    private javax.swing.JPasswordField pswd;
+    private javax.swing.JLabel removeFavCart;
+    private javax.swing.JButton startPayment;
     private javax.swing.JTextField surName;
     private javax.swing.JTable tblFavCart;
-    private javax.swing.JPanel topMid;
     private javax.swing.JTextField userName;
     private javax.swing.JTextField usrName;
     // End of variables declaration//GEN-END:variables
@@ -1581,7 +1433,23 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     }
 
     public void setFavoriteCartList(List<String> cartNames) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        List<Order> orders = IMatDataHandler.getInstance().getOrders();
+        SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat("MM/dd-yyyy hh:mm");
+        
+        DefaultListModel model = new DefaultListModel();
+        oldCarts.setModel(model);
+        
+        Iterator it = orders.iterator();
+        while(it.hasNext())
+        {
+            Order o = (Order)it.next();
+            StringBuilder nowMMDDYYYY = new StringBuilder( dateformatMMDDYYYY.format( o.getDate() ) );
+            int pos = oldCarts.getModel().getSize();
+            model.add(pos, nowMMDDYYYY );
+            System.out.println( nowMMDDYYYY );
+        }
+        
     }
 
     public void displaySelectedCart(NamedOrder order) {
@@ -1604,9 +1472,10 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     }
 
     public void showFinishedPaymentPage(Order order) {
+        //IMatDataHandler.getInstance().p
         panelCheckout1.setVisible(false);
-    panelCheckout2.setVisible(false);
-    panelCheckout3.setVisible(true);
+        panelCheckout2.setVisible(false);
+        panelCheckout3.setVisible(true);
     }
 
     public void termsNotAccepted() {
@@ -1684,6 +1553,9 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     }
 
     public void showEarlierOrdersPage() {
+        btnHistorik.setIcon( new ImageIcon("build/classes/imat/resources/historikSelected.png") );
+        btnLogin.setIcon( new ImageIcon("build/classes/imat/resources/loggain.png") );
+        btnButik.setIcon( new ImageIcon("build/classes/imat/resources/butik.png") );
         midButik.setVisible( false );
         midLogin.setVisible( false );
         midRegister.setVisible( false );
@@ -1691,6 +1563,9 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     }
 
     public void showLoginPage() {
+        btnHistorik.setIcon( new ImageIcon("build/classes/imat/resources/historik.png") );
+        btnLogin.setIcon( new ImageIcon("build/classes/imat/resources/loggainSelected.png") );
+        btnButik.setIcon( new ImageIcon("build/classes/imat/resources/butik.png") );
         panelCheckout1.setVisible(false);
         panelCheckout2.setVisible(false);
         panelCheckout3.setVisible(false);
@@ -1723,6 +1598,9 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     }
 
     public void showMainShoppingPage() {
+        btnHistorik.setIcon( new ImageIcon("build/classes/imat/resources/historik.png") );
+        btnLogin.setIcon( new ImageIcon("build/classes/imat/resources/loggain.png") );
+        btnButik.setIcon( new ImageIcon("build/classes/imat/resources/butikSelected.png") );
         panelCheckout1.setVisible(false);
         panelCheckout2.setVisible(false);
         panelCheckout3.setVisible(false);
@@ -1735,10 +1613,6 @@ private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     public void setLoggedInUser(IMatUser loggedInUser) {
         // TODO A new user has logged in, update "inloggad som" and so on.
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public JButton getLoginBtn() {
-        return btnLogin;
     }
 
 }
