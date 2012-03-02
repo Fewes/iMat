@@ -160,7 +160,7 @@ public class IMatView extends FrameView implements IView {
         productWindow = new imat.productWindow();
         btnKassan = new javax.swing.JLabel();
         midLogin = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        loginPanel = new javax.swing.JPanel();
         usrName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -168,6 +168,8 @@ public class IMatView extends FrameView implements IView {
         btnRegister = new javax.swing.JButton();
         btnLoginCall = new javax.swing.JButton();
         pswd = new javax.swing.JPasswordField();
+        loginMsg = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
         midRegister = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         surName = new javax.swing.JTextField();
@@ -508,8 +510,8 @@ public class IMatView extends FrameView implements IView {
         midLogin.setName("midLogin"); // NOI18N
         midLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
-        jPanel1.setName("jPanel1"); // NOI18N
+        loginPanel.setBackground(resourceMap.getColor("loginPanel.background")); // NOI18N
+        loginPanel.setName("loginPanel"); // NOI18N
 
         usrName.setText(resourceMap.getString("usrName.text")); // NOI18N
         usrName.setName("usrName"); // NOI18N
@@ -542,52 +544,65 @@ public class IMatView extends FrameView implements IView {
         pswd.setText(resourceMap.getString("pswd.text")); // NOI18N
         pswd.setName("pswd"); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        loginMsg.setText(resourceMap.getString("loginMsg.text")); // NOI18N
+        loginMsg.setName("loginMsg"); // NOI18N
+
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(112, 112, 112))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pswd)
-                            .addComponent(usrName, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                        .addGap(23, 23, 23))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnLoginCall, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(btnRegister)
-                        .addContainerGap())))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(112, 112, 112))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4))
+                            .addGap(18, 18, 18)
+                            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(pswd)
+                                .addComponent(usrName, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
+                            .addGap(23, 23, 23))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                            .addComponent(btnLoginCall, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                            .addComponent(btnRegister)
+                            .addContainerGap()))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                        .addComponent(loginMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2)
                 .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usrName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(pswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegister)
                     .addComponent(btnLoginCall))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(loginMsg)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        midLogin.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, -1, -1));
+        midLogin.add(loginPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, -1, 210));
+
+        jLabel31.setText(resourceMap.getString("jLabel31.text")); // NOI18N
+        jLabel31.setName("jLabel31"); // NOI18N
+        midLogin.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 220, -1, -1));
 
         butikMid.add(midLogin, "card3");
 
@@ -757,6 +772,8 @@ public class IMatView extends FrameView implements IView {
 
         jScrollPane9.setName("jScrollPane9"); // NOI18N
 
+        favCarts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        favCarts.setToolTipText(resourceMap.getString("favCarts.toolTipText")); // NOI18N
         favCarts.setName("favCarts"); // NOI18N
         jScrollPane9.setViewportView(favCarts);
 
@@ -764,7 +781,13 @@ public class IMatView extends FrameView implements IView {
 
         jScrollPane10.setName("jScrollPane10"); // NOI18N
 
+        oldCarts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         oldCarts.setName("oldCarts"); // NOI18N
+        oldCarts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                oldCartsMouseClicked(evt);
+            }
+        });
         jScrollPane10.setViewportView(oldCarts);
 
         midHistorik.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 310, 150));
@@ -1242,7 +1265,7 @@ private void btnLoginCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_btnLoginCallActionPerformed
 
 private void checkout1CartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkout1CartMouseClicked
-    
+    checkoutProduct.setVisible(true);
     checkoutProduct.hideFav();
     checkoutProduct.setBtnText("Uppdatera Kundvagn");
     
@@ -1289,6 +1312,7 @@ private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
     showCheckoutPage();
     checkoutProduct.hideFav();
     checkoutProduct.setBtnText("Uppdatera Kundvagn");
+    checkoutProduct.setVisible(false);
 }//GEN-LAST:event_jLabel26MouseClicked
 
 private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
@@ -1296,12 +1320,54 @@ private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
 }//GEN-LAST:event_jLabel29MouseClicked
 
 private void addFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addFavCartMouseClicked
-// TODO add your handling code here:
+    int i = oldCarts.getSelectedIndex();
+    //controller.addCartToFav( (String)oldCarts.getSelectedValue(), (String)oldCarts.getSelectedValue() );
+    //favCarts.add( oldCarts.getSelectedValue() );
+    
+    DefaultListModel model = new DefaultListModel();
+    favCarts.setModel(model);
+
+    int pos = favCarts.getModel().getSize();
+    model.add(pos, oldCarts.getSelectedValue() );
+    
 }//GEN-LAST:event_addFavCartMouseClicked
 
 private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeFavCartMouseClicked
-// TODO add your handling code here:
+    favCarts.remove( favCarts.getSelectedIndex() );     //TODO: Doesn't work but whatever
 }//GEN-LAST:event_removeFavCartMouseClicked
+
+private void oldCartsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_oldCartsMouseClicked
+
+    int i = oldCarts.getSelectedIndex();
+    
+    List<ShoppingItem> items = IMatDataHandler.getInstance().getOrders().get(i).getItems();
+
+    DefaultTableModel dm = new DefaultTableModel();
+    dm.addColumn("Produkt");
+    dm.addColumn("Mängd");
+    dm.addColumn("Pris/Mängd");
+    dm.addColumn("Pris");
+
+    //Iterate through list 
+    Iterator it = items.iterator();
+
+    System.out.println( items.size() );
+
+    while( it.hasNext() )
+    {
+        ShoppingItem item = (ShoppingItem) it.next();
+        
+        dm.addRow( new Object[]{
+            item.getProduct().getName(),
+            item.getAmount() + " " + item.getProduct().getUnitSuffix(),
+            item.getProduct().getPrice() + " kr/" + item.getProduct().getUnitSuffix(),
+            item.getTotal() + " kr"}
+        );
+    }
+
+    tblFavCart.setModel(dm);
+    
+}//GEN-LAST:event_oldCartsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addFavCart;
@@ -1352,6 +1418,7 @@ private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
@@ -1360,7 +1427,6 @@ private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1378,6 +1444,8 @@ private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     private javax.swing.JTable kundvagn;
+    private javax.swing.JLabel loginMsg;
+    private javax.swing.JPanel loginPanel;
     private javax.swing.JLabel logoTop;
     private javax.swing.JPanel mainBot;
     private javax.swing.JPanel mainPanel;
@@ -1593,8 +1661,8 @@ private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
     }
 
     public void passwordsNotMatching() {
-        // TODO Show information that the password and repeated passwords aren't matching.
-        throw new UnsupportedOperationException("Not supported yet.");
+        loginMsg.setText("Felaktigt användarnamn eller lösenord");
+        loginMsg.setForeground(Color.red);
     }
 
     public void showMainShoppingPage() {
@@ -1612,7 +1680,7 @@ private void removeFavCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
 
     public void setLoggedInUser(IMatUser loggedInUser) {
         // TODO A new user has logged in, update "inloggad som" and so on.
-        throw new UnsupportedOperationException("Not supported yet.");
+        loginPanel.setVisible(false);
     }
 
 }

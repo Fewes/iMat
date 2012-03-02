@@ -136,11 +136,13 @@ public class UserHandler {
 			{
 				loggedInUser = user;
                                 System.out.println("User " + username + " logged in successfully!");
+                                IMatView.getView().setLoggedInUser(null);
                                 // TODO Userhandler should not set the button text unless absolutely necessary...
 				return true; // login has succeeded
 			}
 		}
                 System.out.println("Incorrect username or password.");
+                IMatView.getView().passwordsNotMatching();
 		return false; // no such user found
 	}
 	
